@@ -1,0 +1,13 @@
+mensajes_Esp.properties
+btnIngresar=Ingresar
+btnIngresarR=Registrar nuevo usuario
+btnRegistrar=Registrar
+labelUsuario=Ingrese su usuario
+labelPassword=Ingrese su contraseña
+labelNombreR=Ingrese su nombre completo
+labelMailR=Ingrese su correo electrónico
+labelNombreUserR=Ingrese el nombre que desea que se muestre
+labelGeneroR=Ingrese su género
+labelEdadR=Ingrese su edad
+
+

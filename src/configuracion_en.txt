@@ -1,0 +1,11 @@
+messages_Eng.properties
+btnIngresar=Login
+btnIngresarR=Register new user
+btnRegistrar=Register
+labelUsuario=Enter your username
+labelPassword=Enter your password
+labelNombreR=Enter your full name
+labelMailR=Enter your email
+labelNombreUserR=Enter the name you want to display
+labelGeneroR=Enter your gender
+labelEdadR=Enter your age
