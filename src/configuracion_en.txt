@@ -2,6 +2,7 @@ messages_Eng.properties
 btnIngresar=Login
 btnIngresarR=Register new user
 btnRegistrar=Register
+btnRegresarR=Go back
 labelUsuario=Enter your username
 labelPassword=Enter your password
 labelNombreR=Enter your full name

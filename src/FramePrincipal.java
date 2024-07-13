@@ -3,20 +3,22 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Map;
 import java.util.Objects;
 
 public class FramePrincipal extends JFrame {
-    Color color = new Color(0);
-    GridBagConstraints gbc = new GridBagConstraints();
-    JLabel labelUsuario, labelPassword, labelNombreR, labelMailR, labelNombreUserR, labelGeneroR, labelEdadR;
-    JTextField txtUsuario, txtNombreR, txtMailR, txtNombreUserR, txtGeneroR, txtEdadR;
-    JPasswordField txtPassword, txtPasswordR;
-    JPanel panelBotones, mostrarPaneles, Inicio, Registro;
-    JButton btnIngresar, btnRegistrar, btnIngresarR;
-    PanelFondo panel;
-    CardLayout cardLayout;
-    Font FuenteInicio = new Font("Times New Roman", Font.PLAIN, 20);
+    private final Color color = new Color(0);
+    private final GridBagConstraints gbc = new GridBagConstraints();
+    private JLabel labelUsuario, labelPassword, labelNombreR, labelMailR, labelNombreUserR, labelGeneroR, labelEdadR;
+    private JTextField txtUsuario, txtNombreR, txtMailR, txtNombreUserR, txtGeneroR, txtEdadR;
+    private JPasswordField txtPassword, txtPasswordR;
+    private JPanel panelBotones, panelBotonesR, mostrarPaneles, Inicio, Registro;
+    private JButton btnIngresar, btnRegistrar, btnIngresarR, btnRegresarR, btnMontrarPass;
+    private PanelFondo panel;
+    private final CardLayout cardLayout;
+    private final Font FuenteInicio = new Font("Times New Roman", Font.PLAIN, 20);
 
     public FramePrincipal(){
 
@@ -55,7 +57,6 @@ public class FramePrincipal extends JFrame {
         add(mostrarPaneles);
 
         setVisible(true);
-
     }
 
     private JPanel InterfazInicio(Map<String, String> config) {
@@ -95,6 +96,13 @@ public class FramePrincipal extends JFrame {
         gbc.gridy = 1;
         panel.add(txtPassword, gbc);
 
+        btnMontrarPass = new JButton();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/Password15x15.png"));
+        btnMontrarPass.setIcon(icono);
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        panel.add(btnMontrarPass, gbc);
+
         // Panel de botones
         panelBotones = new JPanel();
         panelBotones.setLayout(new GridBagLayout());
@@ -121,9 +129,6 @@ public class FramePrincipal extends JFrame {
         gbc.gridy = 2;
         panel.add(panelBotones, gbc);
 
-        // Añadir el panel principal al JFrame
-        //add(panel, BorderLayout.CENTER);
-
         return panel;
     }
 
@@ -136,7 +141,7 @@ public class FramePrincipal extends JFrame {
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        labelNombreR = new JLabel(config.getOrDefault("labelUsuario", "Ingrese su nombre completo"));
+        labelNombreR = new JLabel(config.getOrDefault("labelNombreR", "Ingrese su nombre completo"));
         labelNombreR.setForeground(Color.YELLOW);
         labelNombreR.setFont(FuenteInicio);
         gbc.gridx = 0;
@@ -160,7 +165,7 @@ public class FramePrincipal extends JFrame {
         gbc.gridy = 1;
         panel.add(txtMailR, gbc);
 
-        labelNombreUserR = new JLabel(config.getOrDefault("labelUsuarioR", "Ingrese el nombre que desea que se muestre"));
+        labelNombreUserR = new JLabel(config.getOrDefault("labelNombreUserR", "Ingrese el nombre que desea que se muestre"));
         labelNombreUserR.setForeground(Color.YELLOW);
         labelNombreUserR.setFont(FuenteInicio);
         gbc.gridx = 0;
@@ -171,6 +176,72 @@ public class FramePrincipal extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 2;
         panel.add(txtNombreUserR, gbc);
+
+        labelPassword = new JLabel(config.getOrDefault("labelPassword", "Ingrese su contraseña"));
+        labelPassword.setForeground(Color.YELLOW);
+        labelPassword.setFont(FuenteInicio);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        panel.add(labelPassword, gbc);
+
+        txtPassword = new JPasswordField(25);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        panel.add(txtPassword, gbc);
+
+        btnMontrarPass = new JButton();
+        ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/Password15x15.png"));
+        btnMontrarPass.setIcon(icono);
+        btnMontrarPass.setSize(15,15);
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        panel.add(btnMontrarPass, gbc);
+        btnMontrarPass.addMouseListener(new OyenteBtnMostrarPass());
+
+        labelEdadR = new JLabel(config.getOrDefault("labelEdadR","Ingrese su edad"));
+        labelEdadR.setForeground(Color.YELLOW);
+        labelEdadR.setFont(FuenteInicio);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        panel.add(labelEdadR, gbc);
+
+        txtEdadR = new JTextField(5);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        panel.add(txtEdadR, gbc);
+
+        labelGeneroR = new JLabel(config.getOrDefault("labelGeneroR","Ingrese su género"));
+        labelGeneroR.setForeground(Color.YELLOW);
+        labelGeneroR.setFont(FuenteInicio);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        panel.add(labelGeneroR, gbc);
+
+        txtGeneroR = new JTextField(5);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        panel.add(txtGeneroR, gbc);
+
+        panelBotonesR = new JPanel();
+        panelBotonesR.setLayout(new GridBagLayout());
+        panelBotonesR.setOpaque(false);
+
+        btnIngresarR = new JButton(config.getOrDefault("btnIngresarR","Registrar nuevo usuario"));
+        btnIngresarR.setSize(100,50);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panelBotonesR.add(btnIngresarR, gbc);
+
+        btnRegresarR = new JButton(config.getOrDefault("btnRegresarR","Volver atrás"));
+        btnRegresarR.setSize(100,50);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        panelBotonesR.add(btnRegresarR, gbc);
+        btnRegresarR.addActionListener(new OyenteBtnRegresarR());
+
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        panel.add(panelBotonesR, gbc);
 
         return panel;
     }
@@ -189,14 +260,37 @@ public class FramePrincipal extends JFrame {
             cardLayout.show(mostrarPaneles, "Registro de nuevo usuario");
         }
     }
+    class OyenteBtnRegresarR implements ActionListener{
 
-    // Método principal
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new FramePrincipal();
-            }
-        });
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cardLayout.show(mostrarPaneles, "Inicio de sesion");
+        }
+    }
+    class OyenteBtnMostrarPass implements MouseListener {
+
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            txtPassword.setEchoChar((char) 0);
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            txtPassword.setEchoChar('*');
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
     }
 }
