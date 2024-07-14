@@ -1,10 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
@@ -19,6 +17,8 @@ public class FramePrincipal extends JFrame {
     private PanelFondo panel;
     private final CardLayout cardLayout;
     private final Font FuenteInicio = new Font("Times New Roman", Font.PLAIN, 20);
+    private Jugador ju = new Jugador();
+    private Configuracion con = new Configuracion();
 
     public FramePrincipal(){
 
@@ -31,7 +31,7 @@ public class FramePrincipal extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE,
                 null, opciones, opciones[0]);
 
-        String rutaArchivo = (seleccion == 1) ? "/configuracion_en.txt" : "/configuracion_es.txt";
+        String rutaArchivo = (seleccion == 1) ? "/BaseDatos/configuracion_en.txt" : "/BaseDatos/configuracion_es.txt";
 
         Map<String, String> config = Configuracion.cargarConfiguracion(rutaArchivo);
 
@@ -152,6 +152,7 @@ public class FramePrincipal extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 0;
         panel.add(txtNombreR, gbc);
+        txtNombreR.addKeyListener(new SoloTexto());
 
         labelMailR = new JLabel(config.getOrDefault("labelMailR", "Ingrese su correo electrónico"));
         labelMailR.setForeground(Color.YELLOW);
@@ -205,10 +206,12 @@ public class FramePrincipal extends JFrame {
         gbc.gridy = 4;
         panel.add(labelEdadR, gbc);
 
+
         txtEdadR = new JTextField(5);
         gbc.gridx = 1;
         gbc.gridy = 4;
         panel.add(txtEdadR, gbc);
+        txtEdadR.addKeyListener(new SoloNumeros());
 
         labelGeneroR = new JLabel(config.getOrDefault("labelGeneroR","Ingrese su género"));
         labelGeneroR.setForeground(Color.YELLOW);
@@ -221,6 +224,7 @@ public class FramePrincipal extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 5;
         panel.add(txtGeneroR, gbc);
+        txtGeneroR.addKeyListener(new SoloTexto());
 
         panelBotonesR = new JPanel();
         panelBotonesR.setLayout(new GridBagLayout());
@@ -265,6 +269,61 @@ public class FramePrincipal extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             cardLayout.show(mostrarPaneles, "Inicio de sesion");
+        }
+    }
+    class OyenteBtnRegistrarUsuario implements ActionListener{
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ArrayList<Jugador> DatosJugador = new ArrayList<Jugador>();
+
+            String valnombre = txtNombreR.getText();
+
+            ju.setNombre(txtNombreR.getText());
+            ju.setCorreo(txtMailR.getText());
+            ju.setNombreUsuario(txtUsuario.getText());
+            ju.setGenero(txtGeneroR.getText());
+            ju.setEdad(Integer.parseInt(txtEdadR.getText()));
+            ju.setPassword(String.valueOf(txtPasswordR.getPassword()));
+            ju.setOro(2000);
+            DatosJugador.add(ju);
+
+        }
+    }
+
+    class SoloNumeros implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            con.numberKeyPress(e);
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+    }
+
+    class SoloTexto implements KeyListener {
+
+        @Override
+        public void keyTyped(KeyEvent e) {
+            con.textKeyPress(e);
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
         }
     }
     class OyenteBtnMostrarPass implements MouseListener {

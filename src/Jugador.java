@@ -100,6 +100,7 @@ public class Jugador {
 
     // Registra un nuevo jugador
     public void registrarJugador() {
+
     }
 
     // Agrega un Puchamon al equipo del jugador
@@ -119,5 +120,9 @@ public class Jugador {
 
     // Guarda los cambios del jugador
     public void guardarCambios() {
+    }
+
+    public String toString() {
+        return nombre + "," + correo + "," + nombreUsuario + "," + genero + "," + edad + "," + password + "," + oro;
     }
 }
