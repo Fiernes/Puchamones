@@ -1,3 +1,6 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class Jugador {
@@ -100,7 +103,19 @@ public class Jugador {
 
     // Registra un nuevo jugador
     public void registrarJugador() {
-
+        String nombreArchivo = "src/BaseDatos/Usuarios.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
+            writer.write("Nombre: " + nombre + ", ");
+            writer.write("Correo: " + correo + ", ");
+            writer.write("Nombre de Usuario: " + nombreUsuario + ", ");
+            writer.write("Género: " + genero + ", ");
+            writer.write("Edad: " + edad + ", ");
+            writer.write("Password: " + password + ", ");
+            writer.write("Oro: " + oro);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al registrar el jugador: " + e.getMessage());
+        }
     }
 
     // Agrega un Puchamon al equipo del jugador
