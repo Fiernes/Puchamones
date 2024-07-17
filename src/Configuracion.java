@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Configuracion {
+
     public static Map<String, String> cargarConfiguracion(String rutaArchivo) {
         Map<String, String> configuracion = new HashMap<>();
 

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.Map;
 
 public class InterfazRegistro extends PanelFondo{
@@ -19,15 +20,23 @@ public class InterfazRegistro extends PanelFondo{
     private final JRadioButton boton;
     private final JRadioButton boton2;
     private String genero;
+    private final String mensajeCuerpo;
+    private final String mensajeCabezera;
+    private List<Jugador> jugadores;
 
     public InterfazRegistro(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles) {
+        super("/imagenes/LogoRegistro.jpg");
 
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
 
-        Font fuenteInicio = new Font("Times New Roman", Font.PLAIN, 20);
-        Color color = new Color(0);
-        setBorder(new MatteBorder(2,2,2,2, color));
+        mensajeCuerpo = config.getOrDefault("JOptionPane", "Se a ingresado con exito al nuevo usuario y se le an acreditado 2000 de oro");
+        mensajeCabezera = config.getOrDefault("JOptionPaneCabezera", "Registro exitoso");
+
+        Font fuenteInicio = new Font("Georgia", Font.BOLD, 20);
+        Color colorLetras = new Color(253, 157, 43, 255);
+        Color color = new Color(191,37,23);
+        setBorder(new MatteBorder(2,3,2,3, color));
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -35,7 +44,7 @@ public class InterfazRegistro extends PanelFondo{
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel labelNombreR = new JLabel(config.getOrDefault("labelNombreR", "Ingrese su nombre completo"));
-        labelNombreR.setForeground(Color.YELLOW);
+        labelNombreR.setForeground(colorLetras);
         labelNombreR.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -47,7 +56,7 @@ public class InterfazRegistro extends PanelFondo{
         add(txtNombreCompleto, gbc);
 
         JLabel labelMailR = new JLabel(config.getOrDefault("labelMailR", "Ingrese su correo electrónico"));
-        labelMailR.setForeground(Color.YELLOW);
+        labelMailR.setForeground(colorLetras);
         labelMailR.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -59,7 +68,7 @@ public class InterfazRegistro extends PanelFondo{
         add(txtCorreo, gbc);
 
         JLabel labelNombreUserR = new JLabel(config.getOrDefault("labelNombreUserR", "Ingrese el nombre que desea que se muestre"));
-        labelNombreUserR.setForeground(Color.YELLOW);
+        labelNombreUserR.setForeground(colorLetras);
         labelNombreUserR.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -71,7 +80,7 @@ public class InterfazRegistro extends PanelFondo{
         add(txtNombreUsuario, gbc);
 
         JLabel labelPassword = new JLabel(config.getOrDefault("labelPassword", "Ingrese su contraseña"));
-        labelPassword.setForeground(Color.YELLOW);
+        labelPassword.setForeground(colorLetras);
         labelPassword.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -92,7 +101,7 @@ public class InterfazRegistro extends PanelFondo{
         btnMontrarPass.addMouseListener(new OyenteMostrarPass());
 
         JLabel labelEdadR = new JLabel(config.getOrDefault("labelEdadR", "Ingrese su edad"));
-        labelEdadR.setForeground(Color.YELLOW);
+        labelEdadR.setForeground(colorLetras);
         labelEdadR.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -105,7 +114,7 @@ public class InterfazRegistro extends PanelFondo{
         add(txtEdad, gbc);
 
         JLabel labelGeneroR = new JLabel(config.getOrDefault("labelGeneroR", "Ingrese su género"));
-        labelGeneroR.setForeground(Color.YELLOW);
+        labelGeneroR.setForeground(colorLetras);
         labelGeneroR.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -118,7 +127,7 @@ public class InterfazRegistro extends PanelFondo{
         boton = new JRadioButton("F");
         boton.setOpaque(false);
         boton.setFont(fuenteInicio);
-        boton.setForeground(Color.YELLOW);
+        boton.setForeground(colorLetras);
         gbc.gridx = 0;
         gbc.gridy = 0;
         panelRBoton.add(boton, gbc);
@@ -126,7 +135,7 @@ public class InterfazRegistro extends PanelFondo{
         boton2 = new JRadioButton("M");
         boton2.setOpaque(false);
         boton2.setFont(fuenteInicio);
-        boton2.setForeground(Color.YELLOW);
+        boton2.setForeground(colorLetras);
         gbc.gridx = 1;
         gbc.gridy = 0;
         panelRBoton.add(boton2, gbc);
@@ -183,8 +192,11 @@ public class InterfazRegistro extends PanelFondo{
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            Sistema sistema = new Sistema();
+            sistema.cargarDatos();
+            jugadores = sistema.getJugadores();
             RegistrarNuevo();
-            JOptionPane.showMessageDialog(null, "Se a ingresado con exito al nuevo usuario y se le an acreditado 2000 de oro", "Registro exitoso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, mensajeCuerpo, mensajeCabezera, JOptionPane.INFORMATION_MESSAGE);
             LimpiarCampos();
         }
     }

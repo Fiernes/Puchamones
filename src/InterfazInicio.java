@@ -14,12 +14,14 @@ public class InterfazInicio extends PanelFondo {
     private JPasswordField txtPassword;
 
     public InterfazInicio(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles) {
+        super("/imagenes/LogoPrincipal.jpg");
 
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
 
-        Color color = new Color(0);
-        setBorder(new MatteBorder(2,2,2,2, color));
+        Color colorLetras = new Color(253, 157, 43, 255);
+        Color color = new Color(191,37,23);
+        setBorder(new MatteBorder(2,3,2,3, color));
         setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -28,8 +30,8 @@ public class InterfazInicio extends PanelFondo {
 
         // Etiqueta de usuario
         JLabel labelUsuario = new JLabel(config.getOrDefault("labelUsuario", "Usuario"));
-        labelUsuario.setForeground(Color.YELLOW);
-        Font fuenteInicio = new Font("Times New Roman", Font.PLAIN, 20);
+        labelUsuario.setForeground(colorLetras);
+        Font fuenteInicio = new Font("Georgia", Font.BOLD, 20);
         labelUsuario.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -43,7 +45,7 @@ public class InterfazInicio extends PanelFondo {
 
         // Etiqueta de contraseña
         JLabel labelPassword = new JLabel(config.getOrDefault("labelPassword", "Contraseña"));
-        labelPassword.setForeground(Color.YELLOW);
+        labelPassword.setForeground(colorLetras);
         labelPassword.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -74,6 +76,7 @@ public class InterfazInicio extends PanelFondo {
         gbc.gridx = 0;
         gbc.gridy = 0;
         panelBotones.add(btnIngresar, gbc);
+        btnIngresar.addActionListener(new OyenteBtnInicio());
 
         // Botón Registrar
         JButton btnRegistrar = new JButton(config.getOrDefault("btnRegistrar", "Registrar"));
@@ -94,6 +97,14 @@ public class InterfazInicio extends PanelFondo {
         @Override
         public void actionPerformed(ActionEvent e) {
             cardLayout.show(mostrarPaneles, "Registro de nuevo usuario");
+        }
+    }
+
+    private class OyenteBtnInicio implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            cardLayout.show(mostrarPaneles, "Menu Principal");
         }
     }
 

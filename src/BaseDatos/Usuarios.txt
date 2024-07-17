@@ -1,1 +1,2 @@
 Nombre: Fidel, Correo: fidel.gutierrez@unah.edu.hn, Nombre de Usuario: Fiernes, Género: M, Edad: 29, Password: 12334, Oro: 2000
+Nombre: fidel, Correo: fidel, Nombre de Usuario: fidel, Género: M, Edad: 123, Password: 123, Oro: 2000

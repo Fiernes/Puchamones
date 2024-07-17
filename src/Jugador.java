@@ -17,6 +17,16 @@ public class Jugador {
     public Jugador() {
     }
 
+    public Jugador(String nombre, String correo, String nombreUsuario, String genero, int edad, String password, int oro) {
+        this.nombre = nombre;
+        this.correo = correo;
+        this.nombreUsuario = nombreUsuario;
+        this.genero = genero;
+        this.edad = edad;
+        this.password = password;
+        this.oro = oro;
+    }
+
     public Jugador(String nombre, String correo, String nombreUsuario, String genero, int edad, String password, int oro, List<Puchamon> equipo, EstadisticasJugador estadisticas) {
         this.nombre = nombre;
         this.correo = correo;
@@ -118,23 +128,9 @@ public class Jugador {
         }
     }
 
-    // Agrega un Puchamon al equipo del jugador
-    public boolean agregarPuchamon(Puchamon puchamon) {
-        return false;
-    }
-
-    // Elimina un Puchamon del equipo del jugador
-    public boolean eliminarPuchamon(Puchamon puchamon) {
-        return false;
-    }
-
     // Realiza una apuesta
     public int realizarApuesta(int cantidad) {
         return cantidad;
-    }
-
-    // Guarda los cambios del jugador
-    public void guardarCambios() {
     }
 
     public String toString() {

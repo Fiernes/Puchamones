@@ -23,8 +23,11 @@ public class FramePrincipal extends JFrame {
 
         Map<String, String> config = Configuracion.cargarConfiguracion(rutaArchivo);
 
+        Sistema sistema = new Sistema();
+        sistema.cargarDatos();
+
         setTitle("Batalla de puchamones");
-        setSize(800, 600);
+        setSize(900, 650);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,9 +41,11 @@ public class FramePrincipal extends JFrame {
 
         InterfazInicio ini = new InterfazInicio(config, cardLayout, mostrarPaneles);
         InterfazRegistro reg = new InterfazRegistro(config, cardLayout, mostrarPaneles);
+        InterfazMPrincipal MP = new InterfazMPrincipal(config, cardLayout, mostrarPaneles);
 
         mostrarPaneles.add(ini, "Inicio de sesion");
         mostrarPaneles.add(reg, "Registro de nuevo usuario");
+        mostrarPaneles.add(MP,"Menu Principal");
 
         add(mostrarPaneles);
 
