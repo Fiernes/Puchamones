@@ -27,18 +27,6 @@ public class Jugador {
         this.oro = oro;
     }
 
-    public Jugador(String nombre, String correo, String nombreUsuario, String genero, int edad, String password, int oro, List<Puchamon> equipo, EstadisticasJugador estadisticas) {
-        this.nombre = nombre;
-        this.correo = correo;
-        this.nombreUsuario = nombreUsuario;
-        this.genero = genero;
-        this.edad = edad;
-        this.password = password;
-        this.oro = oro;
-        this.equipo = equipo;
-        this.estadisticas = estadisticas;
-    }
-
     public String getNombre() {
         return nombre;
     }

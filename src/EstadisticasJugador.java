@@ -1,4 +1,9 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class EstadisticasJugador {
+    private String nombreJugador;
     private int puchamonesCreados;
     private int puchamonesEliminados;
     private int batallasEnArena;
@@ -11,7 +16,8 @@ public class EstadisticasJugador {
     public EstadisticasJugador() {
     }
 
-    public EstadisticasJugador(int puchamonesCreados, int puchamonesEliminados, int batallasEnArena, int batallasGanadas, int batallasPerdidas, int dineroGanado, int dineroPerdido, int batallasDosOMasPV) {
+    public EstadisticasJugador(String nombreJugador, int puchamonesCreados, int puchamonesEliminados, int batallasEnArena, int batallasGanadas, int batallasPerdidas, int dineroGanado, int dineroPerdido, int batallasDosOMasPV) {
+        this.nombreJugador = nombreJugador;
         this.puchamonesCreados = puchamonesCreados;
         this.puchamonesEliminados = puchamonesEliminados;
         this.batallasEnArena = batallasEnArena;
@@ -20,6 +26,14 @@ public class EstadisticasJugador {
         this.dineroGanado = dineroGanado;
         this.dineroPerdido = dineroPerdido;
         this.batallasDosOMasPV = batallasDosOMasPV;
+    }
+
+    public String getNombreJugador() {
+        return nombreJugador;
+    }
+
+    public void setNombreJugador(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
     }
 
     public int getPuchamonesCreados() {
@@ -87,6 +101,22 @@ public class EstadisticasJugador {
     }
 
     // Actualiza las estadísticas del jugador
-    public void actualizarEstadisticas() {
+    public void CrearEstadisticasCero(String usuario) {
+        String nombreArchivo = "src/BaseDatos/EstadisticasJugador.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
+            writer.write("Nombre: " + usuario + ", ");
+            writer.write("Puchamones Creados: " + puchamonesCreados + ", ");
+            writer.write("Puchamones Eliminados: " + puchamonesEliminados + ", ");
+            writer.write("Batallas en Arena: " + batallasEnArena + ", ");
+            writer.write("Batallas Ganadas: " + batallasGanadas + ", ");
+            writer.write("Batallas Perdidas: " + batallasPerdidas + ", ");
+            writer.write("Dinero Ganado: " + dineroGanado + ", ");
+            writer.write("Dinero Perdido: " + dineroPerdido + ", ");
+            writer.write("Batallas Ganadas Dos o Mas PV: " + batallasDosOMasPV);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Error al registrar las Estadisticas: " + e.getMessage());
+        }
+
     }
 }

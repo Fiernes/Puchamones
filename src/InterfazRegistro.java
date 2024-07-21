@@ -193,8 +193,9 @@ public class InterfazRegistro extends PanelFondo{
         @Override
         public void actionPerformed(ActionEvent e) {
             Sistema sistema = new Sistema();
-            sistema.cargarDatos();
+            sistema.cargarJugadores();
             jugadores = sistema.getJugadores();
+
             RegistrarNuevo();
             JOptionPane.showMessageDialog(null, mensajeCuerpo, mensajeCabezera, JOptionPane.INFORMATION_MESSAGE);
             LimpiarCampos();

@@ -24,7 +24,7 @@ public class FramePrincipal extends JFrame {
         Map<String, String> config = Configuracion.cargarConfiguracion(rutaArchivo);
 
         Sistema sistema = new Sistema();
-        sistema.cargarDatos();
+        sistema.cargarJugadores();
 
         setTitle("Batalla de puchamones");
         setSize(900, 650);

@@ -3,16 +3,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Sistema {
     private List<Jugador> jugadores;
+    private List<EstadisticasJugador> estadisticas;
 
     public Sistema() {
         this.jugadores = new ArrayList<>();
-    }
-
-    public Sistema(List<Jugador> jugadores) {
-        this.jugadores = jugadores;
+        this.estadisticas = new ArrayList<>();
     }
 
     public List<Jugador> getJugadores() {
@@ -23,17 +22,30 @@ public class Sistema {
         this.jugadores = jugadores;
     }
 
-    // Inicia sesión de un jugador
-    public String iniciarSesion() {
+    public List<EstadisticasJugador> getEstadisticas() {
+        return estadisticas;
+    }
 
-        return "";
+    public void setEstadisticas(List<EstadisticasJugador> estadisticas) {
+        this.estadisticas = estadisticas;
+    }
+
+    // Inicia sesión de un jugador
+    public boolean iniciarSesion(String usuario, String pass) {
+        cargarJugadores();
+        for (Jugador jugador : jugadores){
+            if (Objects.equals(jugador.getNombreUsuario(), usuario) && Objects.equals(jugador.getPassword(), pass)){
+                return true;
+            }
+        }
+        return false;
     }
 
     // Guarda datos del sistema
     public void guardarDatos() {
     }
 
-    public void cargarDatos() {
+    public void cargarJugadores() {
         String filePath = "src/BaseDatos/Usuarios.txt"; // Cambia esto a la ruta de tu archivo
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -41,6 +53,21 @@ public class Sistema {
                 Jugador jugador = parseJugador(line);
                 if (jugador != null) {
                     this.jugadores.add(jugador);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cargarEstadisticas(){
+        String filePath = "src/BaseDatos/EstadisticasJugador.txt"; // Cambia esto a la ruta de tu archivo
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                EstadisticasJugador estadisticas = parseEstadisticas(line);
+                if (estadisticas != null) {
+                    this.estadisticas.add(estadisticas);
                 }
             }
         } catch (IOException e) {
@@ -60,6 +87,26 @@ public class Sistema {
             int oro = Integer.parseInt(parts[6].split(": ")[1]);
 
             return new Jugador(nombre, correo, nombreUsuario, genero, edad, password, oro);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private EstadisticasJugador parseEstadisticas(String line) {
+        try {
+            String[] parts = line.split(", ");
+            String nombre = parts[0].split(": ")[1];
+            int puchamonesCreados = Integer.parseInt(parts[1].split(": ")[1]);
+            int puchamonesEliminados = Integer.parseInt(parts[2].split(": ")[1]);
+            int batallasEnArena = Integer.parseInt(parts[3].split(": ")[1]);
+            int batallasGanadas = Integer.parseInt(parts[4].split(": ")[1]);
+            int batallasPerdidas = Integer.parseInt(parts[5].split(": ")[1]);
+            int oroGanado = Integer.parseInt(parts[6].split(": ")[1]);
+            int oroPerdido = Integer.parseInt(parts[7].split(": ")[1]);
+            int batallasDosOMasPV = Integer.parseInt(parts[8].split(": ")[1]);
+
+            return new EstadisticasJugador(nombre, puchamonesCreados, puchamonesEliminados, batallasEnArena, batallasGanadas, batallasPerdidas, oroGanado, oroPerdido, batallasDosOMasPV);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

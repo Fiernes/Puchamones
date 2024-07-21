@@ -5,13 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.Map;
 
 public class InterfazInicio extends PanelFondo {
 
     private final CardLayout cardLayout;
     private final JPanel mostrarPaneles;
-    private JPasswordField txtPassword;
+    private final JPasswordField txtPassword;
+    private final JTextField txtUsuario;
+    private final Sistema sistema = new Sistema();
+    private final EstadisticasJugador estadis = new EstadisticasJugador();
+    private boolean jugadorEncontrado = false;
 
     public InterfazInicio(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles) {
         super("/imagenes/LogoPrincipal.jpg");
@@ -38,7 +43,7 @@ public class InterfazInicio extends PanelFondo {
         add(labelUsuario, gbc);
 
         // Campo de texto para el usuario
-        JTextField txtUsuario = new JTextField(25);
+        txtUsuario = new JTextField(25);
         gbc.gridx = 1;
         gbc.gridy = 0;
         add(txtUsuario, gbc);
@@ -92,6 +97,47 @@ public class InterfazInicio extends PanelFondo {
         add(panelBotones, gbc);
     }
 
+    private void ValidarUsuario(){
+        String usuario = txtUsuario.getText();
+        String pass = String.valueOf(txtPassword.getPassword());
+        usuario = usuario.trim();
+        pass = pass.trim();
+        if (!"".equals(usuario) || !"".equals(pass)){
+            boolean verificado = sistema.iniciarSesion(usuario, pass);
+            if (verificado){
+                cardLayout.show(mostrarPaneles, "Menu Principal");
+
+                sistema.cargarEstadisticas();
+                List<EstadisticasJugador> estadisticas = sistema.getEstadisticas();
+                jugadorEncontrado = false;
+
+                for (EstadisticasJugador esta : estadisticas) {
+                    if (usuario.equals(esta.getNombreJugador())) {
+                        jugadorEncontrado = true;
+                        estadisticas.clear();
+                        break;
+                    }
+                }
+
+                if (!jugadorEncontrado) {
+                    estadis.CrearEstadisticasCero(usuario);
+                }
+
+                LimpiarCampos();
+            }else{
+                JOptionPane.showMessageDialog(null, "Correo o contraseña incorrectos");
+            }
+
+        }else{
+            JOptionPane.showMessageDialog(null,"Nada");
+        }
+    }
+
+    private void LimpiarCampos(){
+        txtUsuario.setText("");
+        txtPassword.setText("");
+    }
+
     private class OyenteBtnRegistro implements ActionListener {
 
         @Override
@@ -104,7 +150,7 @@ public class InterfazInicio extends PanelFondo {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            cardLayout.show(mostrarPaneles, "Menu Principal");
+            ValidarUsuario();
         }
     }
 
@@ -133,5 +179,4 @@ public class InterfazInicio extends PanelFondo {
         public void mouseExited(MouseEvent e) {
         }
     }
-
 }
