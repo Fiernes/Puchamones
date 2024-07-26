@@ -1,3 +1,9 @@
+package Vista;
+
+import Modelo.Jugador;
+import Modelo.PanelFondo;
+import Modelo.Sistema;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -8,7 +14,7 @@ import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.Map;
 
-public class InterfazRegistro extends PanelFondo{
+public class InterfazRegistro extends PanelFondo {
 
     private final CardLayout cardLayout;
     private final JPanel mostrarPaneles;

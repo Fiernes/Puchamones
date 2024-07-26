@@ -1,3 +1,5 @@
+package Modelo;
+
 public class Combate {
     private int apuesta;
     private Jugador jugadorUno;

@@ -1,3 +1,5 @@
+package Modelo;
+
 public class Puchamon {
     private String nombre;
     private String tipo;
@@ -76,7 +78,7 @@ public class Puchamon {
         this.experiencia = experiencia;
     }
 
-    // Ataca a otro Puchamon
+    // Ataca a otro Modelo.Puchamon
     public void atacar(Puchamon enemigo) {
     }
 

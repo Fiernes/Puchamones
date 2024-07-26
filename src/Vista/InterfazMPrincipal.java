@@ -1,3 +1,7 @@
+package Vista;
+
+import Modelo.PanelFondo;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
@@ -5,14 +9,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
-public class InterfazMPrincipal extends PanelFondo{
+public class InterfazMPrincipal extends PanelFondo {
 
     private final CardLayout cardLayout;
     private final JPanel mostrarPaneles;
+    private FramePrincipal principal;
+    private Map<String, String> config2;
 
-    public InterfazMPrincipal(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles){
+    public InterfazMPrincipal(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles, FramePrincipal prin){
         super("/imagenes/FondoMprincipal3.jpg");
 
+        this.config2 = config;
+        this.principal = prin;
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
 
@@ -39,6 +47,7 @@ public class InterfazMPrincipal extends PanelFondo{
         btnEstadisticas.setFont(buttonFont);
         gbc.gridy = 1;
         add(btnEstadisticas, gbc);
+        btnEstadisticas.addActionListener(new OyenteBtnEstadisticas());
 
         JButton btnEquipo = new JButton(config.getOrDefault("btnEquipo","Equipo"));
         btnEquipo.setPreferredSize(new Dimension(400, 80));
@@ -57,7 +66,8 @@ public class InterfazMPrincipal extends PanelFondo{
     private class OyenteBtnCerrarSesion implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-            cardLayout.show(mostrarPaneles, "Inicio de sesion");
+            new FrameInicio(config2);
+            principal.dispose();
         }
     }
     private class OyenteBtnArena implements ActionListener{
@@ -69,8 +79,9 @@ public class InterfazMPrincipal extends PanelFondo{
     private class OyenteBtnEstadisticas implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
-
+            cardLayout.show(mostrarPaneles, "Estadisticas");
         }
+
     }
     private class OyenteBtnEquipo implements ActionListener{
         @Override

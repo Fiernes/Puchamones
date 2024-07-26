@@ -1,3 +1,5 @@
+package Modelo;
+
 import java.util.List;
 
 public class Equipo {
@@ -28,12 +30,12 @@ public class Equipo {
         this.maxPuchamones = maxPuchamones;
     }
 
-    // Agrega un Puchamon al equipo
+    // Agrega un Modelo.Puchamon al equipo
     public boolean agregarPuchamon(Puchamon puchamon) {
         return false;
     }
 
-    // Elimina un Puchamon del equipo
+    // Elimina un Modelo.Puchamon del equipo
     public boolean eliminarPuchamon(Puchamon puchamon) {
         return false;
     }
