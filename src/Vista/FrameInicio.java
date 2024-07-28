@@ -1,6 +1,7 @@
 package Vista;
 
 import Controlador.ControladorInicio;
+import Controlador.ControladorRegistro;
 import Modelo.Configuracion;
 
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class FrameInicio extends JFrame {
         InterfazInicio ini = new InterfazInicio(config, cardLayout, mostrarPaneles);
         new ControladorInicio(ini, this);
         InterfazRegistro reg = new InterfazRegistro(config, cardLayout, mostrarPaneles);
+        new ControladorRegistro(reg);
 
         mostrarPaneles.add(ini, "Inicio de sesion");
         mostrarPaneles.add(reg, "Registro de nuevo usuario");

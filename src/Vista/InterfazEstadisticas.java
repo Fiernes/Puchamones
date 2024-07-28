@@ -1,20 +1,17 @@
 package Vista;
 
-import Modelo.EstadisticasJugador;
 import Modelo.PanelFondo;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.util.List;
+import java.awt.event.ActionListener;
 import java.util.Map;
 
 public class InterfazEstadisticas extends PanelFondo {
 
-    private final CardLayout cardLayout;
-    private final JPanel mostrarPaneles;
-    private List<EstadisticasJugador> listaEsta;
-
+    private CardLayout cardLayout;
+    private JPanel mostrarPaneles;
     private JLabel verNombreJ;
     private JLabel verPC;
     private JLabel verPE;
@@ -24,6 +21,23 @@ public class InterfazEstadisticas extends PanelFondo {
     private JLabel verDG;
     private JLabel verDP;
     private JLabel verDOMPV;
+    private JButton btnAtras;
+
+    public JButton getBtnAtras() {
+        return btnAtras;
+    }
+
+    public void setBtnAtras(JButton btnAtras) {
+        this.btnAtras = btnAtras;
+    }
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
+    public JPanel getMostrarPaneles() {
+        return mostrarPaneles;
+    }
 
     public JLabel getVerNombreJ() {
         return verNombreJ;
@@ -97,14 +111,12 @@ public class InterfazEstadisticas extends PanelFondo {
         this.verDOMPV = verDOMPV;
     }
 
-    // Constructor de la clase
     public InterfazEstadisticas(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles) {
         super("/imagenes/Estadisticas.jpg");
 
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
 
-        // Establecer colores y fuentes
         Color colorLetras = new Color(253, 157, 43, 255);
         Font fuenteInicio = new Font("Georgia", Font.BOLD, 20);
         Color color = new Color(191, 37, 23);
@@ -124,6 +136,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelNombreJ, gbc);
 
         verNombreJ = new JLabel();
+        verNombreJ.setForeground(colorLetras);
+        verNombreJ.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 0;
         add(verNombreJ, gbc);
@@ -136,6 +150,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelPC, gbc);
 
         verPC = new JLabel();
+        verPC.setForeground(colorLetras);
+        verPC.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 1;
         add(verPC, gbc);
@@ -148,6 +164,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelPE, gbc);
 
         verPE = new JLabel();
+        verPE.setForeground(colorLetras);
+        verPE.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(verPE, gbc);
@@ -160,6 +178,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelBA, gbc);
 
         verBA = new JLabel();
+        verBA.setForeground(colorLetras);
+        verBA.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 3;
         add(verBA, gbc);
@@ -172,6 +192,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelBG, gbc);
 
         verBG = new JLabel();
+        verBG.setForeground(colorLetras);
+        verBG.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 4;
         add(verBG, gbc);
@@ -184,6 +206,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelBP, gbc);
 
         verBP = new JLabel();
+        verBP.setForeground(colorLetras);
+        verBP.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 5;
         add(verBP, gbc);
@@ -196,6 +220,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelDG, gbc);
 
         verDG = new JLabel();
+        verDG.setForeground(colorLetras);
+        verDG.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 6;
         add(verDG, gbc);
@@ -208,6 +234,8 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelDP, gbc);
 
         verDP = new JLabel();
+        verDP.setForeground(colorLetras);
+        verDP.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 7;
         add(verDP, gbc);
@@ -220,8 +248,19 @@ public class InterfazEstadisticas extends PanelFondo {
         add(labelDOMPV, gbc);
 
         verDOMPV = new JLabel();
+        verDOMPV.setForeground(colorLetras);
+        verDOMPV.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 8;
         add(verDOMPV, gbc);
+
+        btnAtras = new JButton(config.getOrDefault("btnRegresarR", "Volver atras"));
+        btnAtras.setSize(50, 50);
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        add(btnAtras, gbc);
+    }
+    public void Oyente(ActionListener po){
+        btnAtras.addActionListener(po);
     }
 }

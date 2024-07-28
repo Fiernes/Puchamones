@@ -1,5 +1,8 @@
 package Vista;
 
+import Controlador.ContoladorEstadisticas;
+import Controlador.ControladorEquipo;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Map;
@@ -10,7 +13,7 @@ public class FramePrincipal extends JFrame {
     public JPanel paneles;
     public final CardLayout controladorPaneles;
 
-    public FramePrincipal(Map<String, String> config){
+    public FramePrincipal(Map<String, String> config, String usuario){
         setTitle("Batalla de puchamones");
         setSize(900, 650);
         setLocationRelativeTo(null);
@@ -26,9 +29,14 @@ public class FramePrincipal extends JFrame {
 
         InterfazMPrincipal menu = new InterfazMPrincipal(config, controladorPaneles, paneles, this);
         InterfazEstadisticas estadisticas = new InterfazEstadisticas(config, controladorPaneles, paneles);
+        InterfazEquipo equipo = new InterfazEquipo(config,controladorPaneles, paneles);
 
         paneles.add(menu, "Principal");
         paneles.add(estadisticas, "Estadisticas");
+        paneles.add(equipo, "Equipo");
+
+        new ContoladorEstadisticas(estadisticas, menu, usuario);
+        new ControladorEquipo(equipo, menu);
 
         add(paneles);
     }

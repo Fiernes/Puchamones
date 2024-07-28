@@ -1,38 +1,165 @@
 package Vista;
 
-import Modelo.Jugador;
 import Modelo.PanelFondo;
-import Modelo.Sistema;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.List;
 import java.util.Map;
 
 public class InterfazRegistro extends PanelFondo {
 
-    private final CardLayout cardLayout;
-    private final JPanel mostrarPaneles;
-    private final JTextField txtNombreCompleto;
-    private final JTextField txtCorreo;
-    private final JTextField txtNombreUsuario;
-    private final JTextField txtEdad;
-    private final JPasswordField txtPassword;
-    private final JRadioButton boton;
-    private final JRadioButton boton2;
-    private String genero;
-    private final String mensajeCuerpo;
-    private final String mensajeCabezera;
-    private List<Jugador> jugadores;
+    private CardLayout cardLayout;
+    private JPanel mostrarPaneles;
+    private Map<String, String> configuracion;
+    private JTextField txtNombreCompleto;
+    private JTextField txtCorreo;
+    private JTextField txtNombreUsuario;
+    private JComboBox<Integer> comboEdad;
+    private JPasswordField txtPassword;
+    private JRadioButton boton;
+    private JRadioButton boton2;
+    private String generoRegistro;
+    private String mensajeCuerpo;
+    private String mensajeCabezera;
+    private JButton btnMontrarPass;
+    private JButton btnRegistrar;
+    private JButton btnRegresarR;
+
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
+
+    public void setCardLayout(CardLayout cardLayout) {
+        this.cardLayout = cardLayout;
+    }
+
+    public JPanel getMostrarPaneles() {
+        return mostrarPaneles;
+    }
+
+    public void setMostrarPaneles(JPanel mostrarPaneles) {
+        this.mostrarPaneles = mostrarPaneles;
+    }
+
+    public Map<String, String> getConfiguracion() {
+        return configuracion;
+    }
+
+    public void setConfiguracion(Map<String, String> configuracion) {
+        this.configuracion = configuracion;
+    }
+
+    public JTextField getTxtNombreCompleto() {
+        return txtNombreCompleto;
+    }
+
+    public void setTxtNombreCompleto(JTextField txtNombreCompleto) {
+        this.txtNombreCompleto = txtNombreCompleto;
+    }
+
+    public JTextField getTxtCorreo() {
+        return txtCorreo;
+    }
+
+    public void setTxtCorreo(JTextField txtCorreo) {
+        this.txtCorreo = txtCorreo;
+    }
+
+    public JTextField getTxtNombreUsuario() {
+        return txtNombreUsuario;
+    }
+
+    public void setTxtNombreUsuario(JTextField txtNombreUsuario) {
+        this.txtNombreUsuario = txtNombreUsuario;
+    }
+
+    public JComboBox<Integer> getComboEdad() {
+        return comboEdad;
+    }
+
+    public void setComboEdad(JComboBox<Integer> comboEdad) {
+        this.comboEdad = comboEdad;
+    }
+
+    public JPasswordField getTxtPassword() {
+        return txtPassword;
+    }
+
+    public void setTxtPassword(JPasswordField txtPassword) {
+        this.txtPassword = txtPassword;
+    }
+
+    public JRadioButton getBoton() {
+        return boton;
+    }
+
+    public void setBoton(JRadioButton boton) {
+        this.boton = boton;
+    }
+
+    public JRadioButton getBoton2() {
+        return boton2;
+    }
+
+    public void setBoton2(JRadioButton boton2) {
+        this.boton2 = boton2;
+    }
+
+    public String getGeneroRegistro() {
+        return generoRegistro;
+    }
+
+    public void setGeneroRegistro(String generoRegistro) {
+        this.generoRegistro = generoRegistro;
+    }
+
+    public String getMensajeCuerpo() {
+        return mensajeCuerpo;
+    }
+
+    public void setMensajeCuerpo(String mensajeCuerpo) {
+        this.mensajeCuerpo = mensajeCuerpo;
+    }
+
+    public String getMensajeCabezera() {
+        return mensajeCabezera;
+    }
+
+    public void setMensajeCabezera(String mensajeCabezera) {
+        this.mensajeCabezera = mensajeCabezera;
+    }
+
+    public JButton getBtnMontrarPass() {
+        return btnMontrarPass;
+    }
+
+    public void setBtnMontrarPass(JButton btnMontrarPass) {
+        this.btnMontrarPass = btnMontrarPass;
+    }
+
+    public JButton getBtnRegistrar() {
+        return btnRegistrar;
+    }
+
+    public void setBtnRegistrar(JButton btnRegistrar) {
+        this.btnRegistrar = btnRegistrar;
+    }
+
+    public JButton getBtnRegresarR() {
+        return btnRegresarR;
+    }
+
+    public void setBtnRegresarR(JButton btnRegresarR) {
+        this.btnRegresarR = btnRegresarR;
+    }
 
     public InterfazRegistro(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles) {
         super("/imagenes/LogoRegistro.jpg");
 
+        this.configuracion = config;
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
 
@@ -97,14 +224,13 @@ public class InterfazRegistro extends PanelFondo {
         gbc.gridy = 3;
         add(txtPassword, gbc);
 
-        JButton btnMontrarPass = new JButton();
+        btnMontrarPass = new JButton();
         ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/Password15x15.png"));
         btnMontrarPass.setIcon(icono);
         btnMontrarPass.setSize(15,15);
         gbc.gridx = 2;
         gbc.gridy = 3;
         add(btnMontrarPass, gbc);
-        btnMontrarPass.addMouseListener(new OyenteMostrarPass());
 
         JLabel labelEdadR = new JLabel(config.getOrDefault("labelEdadR", "Ingrese su edad"));
         labelEdadR.setForeground(colorLetras);
@@ -114,10 +240,18 @@ public class InterfazRegistro extends PanelFondo {
         add(labelEdadR, gbc);
 
 
-        txtEdad = new JTextField(5);
+        Integer[] edades = new Integer[100];
+        for (int i = 0; i < 100; i++) {
+            edades[i] = i + 1;
+        }
+        JPanel edad = new JPanel();
+        edad.setLayout(new BorderLayout());
+        edad.setOpaque(false);
+        comboEdad = new JComboBox<>(edades);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        add(txtEdad, gbc);
+        edad.add(comboEdad, BorderLayout.WEST);
+        add(edad, gbc);
 
         JLabel labelGeneroR = new JLabel(config.getOrDefault("labelGeneroR", "Ingrese su género"));
         labelGeneroR.setForeground(colorLetras);
@@ -150,15 +284,6 @@ public class InterfazRegistro extends PanelFondo {
         grupo.add(boton);
         grupo.add(boton2);
 
-        ActionListener listener = e -> {
-            JRadioButton source = (JRadioButton) e.getSource();
-            System.out.println("Seleccionado: " + source.getText());
-            genero = source.getText();
-        };
-
-        boton.addActionListener(listener);
-        boton2.addActionListener(listener);
-
         gbc.gridx = 1;
         gbc.gridy = 5;
         add(panelRBoton,gbc);
@@ -167,92 +292,34 @@ public class InterfazRegistro extends PanelFondo {
         panelBotonesR.setLayout(new GridBagLayout());
         panelBotonesR.setOpaque(false);
 
-        JButton btnRegistrar = new JButton(config.getOrDefault("btnIngresarR", "Registrar nuevo usuario"));
+        btnRegistrar = new JButton(config.getOrDefault("btnIngresarR", "Registrar nuevo usuario"));
         btnRegistrar.setSize(100,50);
         gbc.gridx = 0;
         gbc.gridy = 0;
         panelBotonesR.add(btnRegistrar, gbc);
-        btnRegistrar.addActionListener(new OyenteRegistrar());
 
-        JButton btnRegresarR = new JButton(config.getOrDefault("btnRegresarR", "Volver atrás"));
+        btnRegresarR = new JButton(config.getOrDefault("btnRegresarR", "Volver atrás"));
         btnRegresarR.setSize(100,50);
         gbc.gridx = 1;
         gbc.gridy = 0;
         panelBotonesR.add(btnRegresarR, gbc);
-        btnRegresarR.addActionListener(new OyenteRegresar());
 
         gbc.gridx = 1;
         gbc.gridy = 6;
         add(panelBotonesR, gbc);
     }
 
-    private class OyenteRegresar implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            cardLayout.show(mostrarPaneles, "Inicio de sesion");
-        }
+    public void OyenteContra(MouseListener po){
+        btnMontrarPass.addMouseListener(po);
     }
-
-    private class OyenteRegistrar implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Sistema sistema = new Sistema();
-            sistema.cargarJugadores();
-            jugadores = sistema.getJugadores();
-
-            RegistrarNuevo();
-            JOptionPane.showMessageDialog(null, mensajeCuerpo, mensajeCabezera, JOptionPane.INFORMATION_MESSAGE);
-            LimpiarCampos();
-        }
+    public void OyenteRadioB(ActionListener po){
+        boton.addActionListener(po);
+        boton2.addActionListener(po);
     }
-
-   private class OyenteMostrarPass implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            txtPassword.setEchoChar((char) 0);
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            txtPassword.setEchoChar('*');
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
+    public void OyenteRegis(ActionListener po){
+        btnRegistrar.addActionListener(po);
     }
-
-    private void RegistrarNuevo(){
-        Jugador jugador = new Jugador();
-        jugador.setNombre(txtNombreCompleto.getText());
-        jugador.setCorreo(txtCorreo.getText());
-        jugador.setNombreUsuario(txtNombreUsuario.getText());
-        jugador.setPassword(String.valueOf(txtPassword.getPassword()));
-        jugador.setEdad(Integer.parseInt(txtEdad.getText()));
-        jugador.setGenero(genero);
-        jugador.setOro(2000);
-        jugador.registrarJugador();
-    }
-
-    private void LimpiarCampos(){
-        txtNombreCompleto.setText("");
-        txtCorreo.setText("");
-        txtNombreUsuario.setText("");
-        txtPassword.setText("");
-        txtEdad.setText("");
-        boton.setSelected(false);
-        boton2.setSelected(false);
+    public void OyenteRegresar(ActionListener po){
+        btnRegresarR.addActionListener(po);
     }
 }

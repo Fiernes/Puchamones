@@ -46,7 +46,7 @@ public class ControladorInicio {
             Sistema sistema = new Sistema();
             boolean verificado = sistema.iniciarSesion(usuario, pass);
             if (verificado){
-                FramePrincipal f = new FramePrincipal(config);
+                FramePrincipal f = new FramePrincipal(config, usuario);
                 f.setVisible(true);
                 inicio2.dispose();
 

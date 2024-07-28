@@ -15,6 +15,8 @@ public class InterfazMPrincipal extends PanelFondo {
     private final JPanel mostrarPaneles;
     private FramePrincipal principal;
     private Map<String, String> config2;
+    private JButton btnEstadisticas;
+    private JButton btnEquipo;
 
     public InterfazMPrincipal(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles, FramePrincipal prin){
         super("/imagenes/FondoMprincipal3.jpg");
@@ -42,14 +44,13 @@ public class InterfazMPrincipal extends PanelFondo {
         add(btnArena, gbc);
 
 
-        JButton btnEstadisticas = new JButton(config.getOrDefault("btnEstadisticas","Estadisticas"));
+        btnEstadisticas = new JButton(config.getOrDefault("btnEstadisticas","Estadisticas"));
         btnEstadisticas.setPreferredSize(new Dimension(400, 80));
         btnEstadisticas.setFont(buttonFont);
         gbc.gridy = 1;
         add(btnEstadisticas, gbc);
-        btnEstadisticas.addActionListener(new OyenteBtnEstadisticas());
 
-        JButton btnEquipo = new JButton(config.getOrDefault("btnEquipo","Equipo"));
+        btnEquipo = new JButton(config.getOrDefault("btnEquipo","Equipo"));
         btnEquipo.setPreferredSize(new Dimension(400, 80));
         btnEquipo.setFont(buttonFont);
         gbc.gridy = 2;
@@ -61,6 +62,14 @@ public class InterfazMPrincipal extends PanelFondo {
         gbc.gridy = 3;
         add(btnCerrarSesion, gbc);
         btnCerrarSesion.addActionListener(new OyenteBtnCerrarSesion());
+    }
+
+    public void Oyente(ActionListener po){
+        btnEstadisticas.addActionListener(po);
+    }
+
+    public void OyenteEquipo(ActionListener po){
+        btnEquipo.addActionListener(po);
     }
 
     private class OyenteBtnCerrarSesion implements ActionListener{
@@ -75,13 +84,6 @@ public class InterfazMPrincipal extends PanelFondo {
         public void actionPerformed(ActionEvent e) {
 
         }
-    }
-    private class OyenteBtnEstadisticas implements ActionListener{
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            cardLayout.show(mostrarPaneles, "Estadisticas");
-        }
-
     }
     private class OyenteBtnEquipo implements ActionListener{
         @Override
