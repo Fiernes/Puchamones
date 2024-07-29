@@ -30,13 +30,15 @@ public class FramePrincipal extends JFrame {
         InterfazMPrincipal menu = new InterfazMPrincipal(config, controladorPaneles, paneles, this);
         InterfazEstadisticas estadisticas = new InterfazEstadisticas(config, controladorPaneles, paneles);
         InterfazEquipo equipo = new InterfazEquipo(config,controladorPaneles, paneles);
+        InterfazRegistroPuchamon registroPuchamon = new InterfazRegistroPuchamon(config, controladorPaneles, paneles);
 
         paneles.add(menu, "Principal");
         paneles.add(estadisticas, "Estadisticas");
         paneles.add(equipo, "Equipo");
+        paneles.add(registroPuchamon, "Requipo");
 
         new ContoladorEstadisticas(estadisticas, menu, usuario);
-        new ControladorEquipo(equipo, menu);
+        new ControladorEquipo(equipo, menu, registroPuchamon);
 
         add(paneles);
     }

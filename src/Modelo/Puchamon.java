@@ -1,6 +1,7 @@
 package Modelo;
 
 public class Puchamon {
+    private String usuario;
     private String nombre;
     private String tipo;
     private int nivel;
@@ -12,7 +13,8 @@ public class Puchamon {
     public Puchamon() {
     }
 
-    public Puchamon(String nombre, String tipo, int nivel, int vida, int ataque, int defensa, int experiencia) {
+    public Puchamon(String usuario, String nombre, String tipo, int nivel, int vida, int ataque, int defensa, int experiencia) {
+        this.usuario = usuario;
         this.nombre = nombre;
         this.tipo = tipo;
         this.nivel = nivel;
@@ -20,6 +22,14 @@ public class Puchamon {
         this.ataque = ataque;
         this.defensa = defensa;
         this.experiencia = experiencia;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public String getNombre() {

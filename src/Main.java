@@ -16,6 +16,11 @@ public class Main {
                 JOptionPane.INFORMATION_MESSAGE,
                 null, opciones, opciones[0]);
 
+        if (seleccion == JOptionPane.CLOSED_OPTION) {
+            // Cerrar el programa
+            System.exit(0);
+        }
+
         String rutaArchivo = (seleccion == 1) ? "/BaseDatos/configuracion_en.txt" : "/BaseDatos/configuracion_es.txt";
 
         Map<String, String> config = Configuracion.cargarConfiguracion(rutaArchivo);
