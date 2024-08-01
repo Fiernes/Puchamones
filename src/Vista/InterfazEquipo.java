@@ -24,6 +24,15 @@ public class InterfazEquipo extends PanelFondo {
     private JLabel ataqueP;
     private JLabel defenzaP;
     private JLabel experienciaP;
+    private JPanel panelElegidos;
+
+    public JPanel getPanelElegidos() {
+        return panelElegidos;
+    }
+
+    public void setPanelElegidos(JPanel panelElegidos) {
+        this.panelElegidos = panelElegidos;
+    }
 
     public CardLayout getCardLayout() {
         return cardLayout;
@@ -139,47 +148,35 @@ public class InterfazEquipo extends PanelFondo {
         Font fuenteInicio = new Font("Georgia", Font.BOLD, 20);
         Color color = new Color(191, 37, 23);
         setBorder(new MatteBorder(2, 3, 2, 3, color));
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JPanel puchamonUno = new JPanel();
-        puchamonUno.setLayout(new GridBagLayout());
-        puchamonUno.setSize(100,250);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        add(puchamonUno, gbc);
-
-        etiquetaImagen = new JLabel();
-        etiquetaImagen.setOpaque(false);
-        etiquetaImagen.setPreferredSize(new Dimension(100, 150));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        puchamonUno.add(etiquetaImagen, gbc);
+        panelElegidos = new JPanel();
+        panelElegidos.setLayout(new GridBagLayout());
+        panelElegidos.setOpaque(false);
+        add(panelElegidos, BorderLayout.CENTER);
 
 
-
-
+        JPanel panelBotones = new JPanel();
+        panelBotones.setLayout(new FlowLayout());
+        panelBotones.setOpaque(false);
 
         btnAgregarP = new JButton(config.getOrDefault("btnAgregarP", "Agregar puchamon"));
         btnAgregarP.setPreferredSize(new Dimension(150,50));
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        add(btnAgregarP, gbc);
+        panelBotones.add(btnAgregarP);
 
         btnEliminarP = new JButton(config.getOrDefault("btnEliminarP", "Eliminar puchamon"));
         btnEliminarP.setPreferredSize(new Dimension(150,50));
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        add(btnEliminarP, gbc);
+        panelBotones.add(btnEliminarP);
 
         btnAtras = new JButton(config.getOrDefault("btnRegresarR", "Volver atras"));
         btnAtras.setPreferredSize(new Dimension(150, 50));
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        add(btnAtras, gbc);
+        panelBotones.add(btnAtras);
+
+        add(panelBotones, BorderLayout.SOUTH);
 
     }
 

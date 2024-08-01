@@ -2,6 +2,7 @@ package Vista;
 
 import Controlador.ControladorInicio;
 import Controlador.ControladorRegistro;
+import Controlador.ControladorRegistroPuchamon;
 import Modelo.Configuracion;
 
 import javax.swing.*;

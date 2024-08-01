@@ -1,0 +1,5 @@
+Usuario: Fiernes, NombreP: Canelo, TipoP: Fuego, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Fuego-1.png
+Usuario: Fiernes, NombreP: a, TipoP: Fuego, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Fuego-5.png
+Usuario: Fiernes, NombreP: c, TipoP: Psiquico, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Psiquico-4.png
+Usuario: Fiernes, NombreP: Puchamon, TipoP: Psiquico, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Psiquico-5.png
+Usuario: Edel, NombreP: e, TipoP: Electrico, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Electrico-1.jpg

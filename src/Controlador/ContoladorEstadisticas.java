@@ -45,7 +45,7 @@ public class ContoladorEstadisticas {
         this.btnRegresarR = vista.getBtnAtras();
 
         vista.Oyente(new OyenteAtras());
-        menu.Oyente(new OyenteEstadisticas());
+        menu.OyenteEstadisticas(new OyenteEstadisticas());
     }
 
     public void CargarEstadisticasJugador(){

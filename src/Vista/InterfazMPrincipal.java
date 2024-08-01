@@ -5,9 +5,8 @@ import Modelo.PanelFondo;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.awt.event.MouseListener;
 import java.util.Map;
 
 public class InterfazMPrincipal extends PanelFondo {
@@ -15,14 +14,64 @@ public class InterfazMPrincipal extends PanelFondo {
     private final CardLayout cardLayout;
     private final JPanel mostrarPaneles;
     private FramePrincipal principal;
-    private Map<String, String> config2;
+    private Map<String, String> config;
     private JButton btnEstadisticas;
     private JButton btnEquipo;
+    private JButton btnArena;
+    private JButton btnCerrarSesion;
+
+    public Map<String, String> getConfig() {
+        return config;
+    }
+
+    public void setConfig(Map<String, String> config) {
+        this.config = config;
+    }
+
+    public FramePrincipal getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(FramePrincipal principal) {
+        this.principal = principal;
+    }
+
+    public JButton getBtnCerrarSesion() {
+        return btnCerrarSesion;
+    }
+
+    public void setBtnCerrarSesion(JButton btnCerrarSesion) {
+        this.btnCerrarSesion = btnCerrarSesion;
+    }
+
+    public JButton getBtnArena() {
+        return btnArena;
+    }
+
+    public void setBtnArena(JButton btnArena) {
+        this.btnArena = btnArena;
+    }
+
+    public JButton getBtnEquipo() {
+        return btnEquipo;
+    }
+
+    public void setBtnEquipo(JButton btnEquipo) {
+        this.btnEquipo = btnEquipo;
+    }
+
+    public JButton getBtnEstadisticas() {
+        return btnEstadisticas;
+    }
+
+    public void setBtnEstadisticas(JButton btnEstadisticas) {
+        this.btnEstadisticas = btnEstadisticas;
+    }
 
     public InterfazMPrincipal(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles, FramePrincipal prin) {
         super("/imagenes/LogoPrincipal(2).jpg");
 
-        this.config2 = config;
+        this.config = config;
         this.principal = prin;
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
@@ -39,9 +88,7 @@ public class InterfazMPrincipal extends PanelFondo {
         Font fuenteInicio = new Font("Georgia", Font.BOLD, 20);
         Color colorLetras = new Color(253, 157, 43, 255);
 
-        ImageIcon iconoArena = AjustarImagen("/imagenes/Arena.jpg", 200, 300,0.5f);
-        JButton btnArena = new JButton("Arena");
-        btnArena.setIcon(iconoArena);
+        btnArena = new JButton("Arena");
         btnArena.setPreferredSize(new Dimension(200, 300));
         btnArena.setFont(fuenteInicio);
         btnArena.setForeground(colorLetras);
@@ -58,9 +105,7 @@ public class InterfazMPrincipal extends PanelFondo {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         add(btnArena, gbc);
 
-        ImageIcon iconoEstadisticas = AjustarImagen("/imagenes/btnEstadisticas.jpg", 200, 300,0.5f);
         btnEstadisticas = new JButton(config.getOrDefault("btnEstadisticas", "Estadísticas"));
-        btnEstadisticas.setIcon(iconoEstadisticas);
         btnEstadisticas.setPreferredSize(new Dimension(200, 300));
         btnEstadisticas.setFont(fuenteInicio);
         btnEstadisticas.setForeground(colorLetras);
@@ -77,9 +122,7 @@ public class InterfazMPrincipal extends PanelFondo {
         gbc.anchor = GridBagConstraints.NORTHEAST;
         add(btnEstadisticas, gbc);
 
-        ImageIcon iconoEquipo = AjustarImagen("/imagenes/btnEquipo.jpg",200,300,0.5f);
         btnEquipo = new JButton(config.getOrDefault("btnEquipo", "Equipo"));
-        btnEquipo.setIcon(iconoEquipo);
         btnEquipo.setPreferredSize(new Dimension(200, 300));
         btnEquipo.setFont(fuenteInicio);
         btnEquipo.setForeground(colorLetras);
@@ -96,9 +139,7 @@ public class InterfazMPrincipal extends PanelFondo {
         gbc.anchor = GridBagConstraints.SOUTHWEST;
         add(btnEquipo, gbc);
 
-        ImageIcon iconoCerrar = AjustarImagen("/imagenes/btnCerrarSesion.jpg",200,300,0.5f);
-        JButton btnCerrarSesion = new JButton(config.getOrDefault("btnCerrarSesion", "Cerrar sesión"));
-        btnCerrarSesion.setIcon(iconoCerrar);
+        btnCerrarSesion = new JButton(config.getOrDefault("btnCerrarSesion", "Cerrar sesión"));
         btnCerrarSesion.setPreferredSize(new Dimension(200, 300));
         btnCerrarSesion.setFont(fuenteInicio);
         btnCerrarSesion.setForeground(colorLetras);
@@ -114,26 +155,22 @@ public class InterfazMPrincipal extends PanelFondo {
         gbc.insets = new Insets(100, 100, 40, 40);
         gbc.anchor = GridBagConstraints.SOUTHEAST;
         add(btnCerrarSesion, gbc);
-        btnCerrarSesion.addActionListener(new OyenteBtnCerrarSesion());
     }
 
-    public ImageIcon AjustarImagen(String ruta, int ancho, int alto, float opacidad) {
-        ImageIcon icono = new ImageIcon(getClass().getResource(ruta));
-        Image imagen = icono.getImage();
-
-        BufferedImage bufferedImage = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = bufferedImage.createGraphics();
-
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacidad));
-        g2d.drawImage(imagen, 0, 0, ancho, alto, null);
-        g2d.dispose();
-
-        ImageIcon iconoOpaco = new ImageIcon(bufferedImage);
-
-        return iconoOpaco;
+    public void OyenteBtnArena(MouseListener mo){
+        btnArena.addMouseListener(mo);
+    }
+    public void OyenteBtnEquipo(MouseListener mo){
+        btnEquipo.addMouseListener(mo);
+    }
+    public void OyenteBtnEstadisticas(MouseListener mo){
+        btnEstadisticas.addMouseListener(mo);
+    }
+    public void OyenteBtnCerrar(MouseListener mo){
+        btnCerrarSesion.addMouseListener(mo);
     }
 
-    public void Oyente(ActionListener po) {
+    public void OyenteEstadisticas(ActionListener po) {
         btnEstadisticas.addActionListener(po);
     }
 
@@ -141,25 +178,7 @@ public class InterfazMPrincipal extends PanelFondo {
         btnEquipo.addActionListener(po);
     }
 
-    private class OyenteBtnCerrarSesion implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            new FrameInicio(config2);
-            principal.dispose();
-        }
-    }
-
-    private class OyenteBtnArena implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
-    }
-
-    private class OyenteBtnEquipo implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-        }
+    public void OyenteCerrar(ActionListener po){
+        btnCerrarSesion.addActionListener(po);
     }
 }

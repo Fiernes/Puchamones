@@ -9,11 +9,12 @@ public class Puchamon {
     private int ataque;
     private int defensa;
     private int experiencia;
+    private String rutaImagen;
 
     public Puchamon() {
     }
 
-    public Puchamon(String usuario, String nombre, String tipo, int nivel, int vida, int ataque, int defensa, int experiencia) {
+    public Puchamon(String usuario, String nombre, String tipo, int nivel, int vida, int ataque, int defensa, int experiencia, String rutaImagen) {
         this.usuario = usuario;
         this.nombre = nombre;
         this.tipo = tipo;
@@ -22,6 +23,7 @@ public class Puchamon {
         this.ataque = ataque;
         this.defensa = defensa;
         this.experiencia = experiencia;
+        this.rutaImagen = rutaImagen;
     }
 
     public String getUsuario() {
@@ -86,6 +88,14 @@ public class Puchamon {
 
     public void setExperiencia(int experiencia) {
         this.experiencia = experiencia;
+    }
+
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     // Ataca a otro Modelo.Puchamon

@@ -2,9 +2,14 @@ package Vista;
 
 import Controlador.ContoladorEstadisticas;
 import Controlador.ControladorEquipo;
+import Controlador.ControladorMenuPrincipal;
+import Controlador.ControladorRegistroPuchamon;
+import Modelo.Equipo;
+import Modelo.Puchamon;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -38,7 +43,10 @@ public class FramePrincipal extends JFrame {
         paneles.add(registroPuchamon, "Requipo");
 
         new ContoladorEstadisticas(estadisticas, menu, usuario);
-        new ControladorEquipo(equipo, menu, registroPuchamon);
+        new ControladorEquipo(equipo, menu, usuario);
+        new ControladorRegistroPuchamon(registroPuchamon, equipo, usuario);
+        ControladorMenuPrincipal con = new ControladorMenuPrincipal(menu);
+        con.CargarImagenesBtn();
 
         add(paneles);
     }

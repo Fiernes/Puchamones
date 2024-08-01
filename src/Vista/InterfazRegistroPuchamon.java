@@ -16,6 +16,24 @@ public class InterfazRegistroPuchamon extends PanelFondo {
     private JLabel seleccionada;
     private JButton btnCrear;
     private JButton btnAtras;
+    private JLabel labelSeleccionada;
+    private JComboBox<String> tipoPuchamon;
+
+    public JComboBox<String> getTipoPuchamon() {
+        return tipoPuchamon;
+    }
+
+    public void setTipoPuchamon(JComboBox<String> tipoPuchamon) {
+        this.tipoPuchamon = tipoPuchamon;
+    }
+
+    public JLabel getLabelSeleccionada() {
+        return labelSeleccionada;
+    }
+
+    public void setLabelSeleccionada(JLabel labelSeleccionada) {
+        this.labelSeleccionada = labelSeleccionada;
+    }
 
     public CardLayout getCardLayout() {
         return cardLayout;
@@ -83,6 +101,11 @@ public class InterfazRegistroPuchamon extends PanelFondo {
         txtNombreP = new JTextField(30);
         panelLabel.add(txtNombreP);
 
+        String[] tipo = {"Fuego", "Agua", "Planta", "Electrico", "Psiquico"};
+        tipoPuchamon = new JComboBox<>(tipo);
+        tipoPuchamon.setPreferredSize(new Dimension(150,25));
+        panelLabel.add(tipoPuchamon);
+
         add(panelLabel, BorderLayout.NORTH);
 
         panelImagenes = new JPanel();
@@ -96,6 +119,9 @@ public class InterfazRegistroPuchamon extends PanelFondo {
 
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new FlowLayout());
+
+        labelSeleccionada = new JLabel();
+        panelBotones.add(labelSeleccionada);
 
         btnCrear = new JButton(config.getOrDefault("btnCrear","Crear puchamon"));
         btnCrear.setPreferredSize(new Dimension(150,50));
@@ -113,5 +139,9 @@ public class InterfazRegistroPuchamon extends PanelFondo {
 
      public void OyenteAtras(ActionListener po){
         btnAtras.addActionListener(po);
+     }
+
+     public void OyenteJComboBox(ActionListener po){
+        tipoPuchamon.addActionListener(po);
      }
 }
