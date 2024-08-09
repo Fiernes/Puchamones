@@ -4,6 +4,7 @@ import Modelo.Equipo;
 import Modelo.Puchamon;
 import Vista.InterfazEquipo;
 import Vista.InterfazRegistroPuchamon;
+import Vista.InterfazMPrincipal;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,8 +16,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ControladorRegistroPuchamon {
 
@@ -30,9 +31,10 @@ public class ControladorRegistroPuchamon {
     private String rutaImagen;
     private JComboBox<String> tipo;
     private int maxPuchamones = 1;
+    private InterfazEquipo interfazEquipo;
+    private InterfazMPrincipal menu;
 
-    public ControladorRegistroPuchamon(InterfazRegistroPuchamon puchamon, InterfazEquipo equipo, String usuario){
-
+    public ControladorRegistroPuchamon(InterfazRegistroPuchamon puchamon, InterfazEquipo equipo, InterfazMPrincipal menu, String usuario){
         this.card = puchamon.getCardLayout();
         this.panel = puchamon.getMostrarPaneles();
         this.txtNombreP = puchamon.getTxtNombreP();
@@ -41,6 +43,8 @@ public class ControladorRegistroPuchamon {
         this.panelImagenes = puchamon.getPanelImagenes();
         this.usuario = usuario;
         this.tipo = puchamon.getTipoPuchamon();
+        this.interfazEquipo = equipo;
+        this.menu = menu;
 
         puchamon.OyenteAtras(new OyenteAtras2());
         puchamon.OyenteJComboBox(new OyenteTipo());
@@ -88,7 +92,6 @@ public class ControladorRegistroPuchamon {
         }
     }
 
-
     private boolean isImageFile(File file) {
         String[] validExtensions = {"jpg", "jpeg", "png", "gif"};
         String fileName = file.getName().toLowerCase();
@@ -110,7 +113,7 @@ public class ControladorRegistroPuchamon {
             }
         }
 
-        if (maxPuchamones >= 4){
+        if (maxPuchamones > 3){
             JOptionPane.showMessageDialog(null, "A alcanzado el maximo de puchamones");
         }else {
             Puchamon pu = new Puchamon();
@@ -120,16 +123,21 @@ public class ControladorRegistroPuchamon {
                 JOptionPane.showMessageDialog(null, "El nombre del Puchamon no puede estar vacío.");
                 return;
             }
+            Random rand = new Random();
+            int ataqueAleatorio = rand.nextInt(51) + 50; // Genera un valor entre 50 y 100
+            int defensaAleatoria = rand.nextInt(51) + 50; // Genera un valor entre 50 y 100
+
             pu.setNombre(nombre);
             pu.setUsuario(usuario);
             pu.setTipo(tipo.getSelectedItem().toString());
             pu.setNivel(1);
             pu.setVida(250);
-            pu.setAtaque(10);
-            pu.setDefensa(5);
+            pu.setAtaque(ataqueAleatorio);
+            pu.setDefensa(defensaAleatoria);
             pu.setExperiencia(0);
             pu.setRutaImagen(rutaImagen);
             e.agregarPuchamon(pu);
+            JOptionPane.showMessageDialog(null, "Puchamon creado con exito");
         }
     }
 
@@ -164,8 +172,9 @@ public class ControladorRegistroPuchamon {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            ControladorEquipo equipo = new ControladorEquipo(interfazEquipo, menu, usuario);
+            equipo.agregarPaneles(usuario);
             card.show(panel, "Equipo");
         }
     }
-
 }

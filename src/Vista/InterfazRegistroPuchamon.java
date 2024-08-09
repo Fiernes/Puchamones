@@ -101,7 +101,7 @@ public class InterfazRegistroPuchamon extends PanelFondo {
         txtNombreP = new JTextField(30);
         panelLabel.add(txtNombreP);
 
-        String[] tipo = {"Fuego", "Agua", "Planta", "Electrico", "Psiquico"};
+        String[] tipo = {"Fuego", "Agua", "Planta", "Electrico", "Psiquico", "Siniestro"};
         tipoPuchamon = new JComboBox<>(tipo);
         tipoPuchamon.setPreferredSize(new Dimension(150,25));
         panelLabel.add(tipoPuchamon);

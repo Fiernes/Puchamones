@@ -1,15 +1,9 @@
 package Vista;
 
-import Controlador.ContoladorEstadisticas;
-import Controlador.ControladorEquipo;
-import Controlador.ControladorMenuPrincipal;
-import Controlador.ControladorRegistroPuchamon;
-import Modelo.Equipo;
-import Modelo.Puchamon;
+import Controlador.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -21,6 +15,7 @@ public class FramePrincipal extends JFrame {
     public FramePrincipal(Map<String, String> config, String usuario){
         setTitle("Batalla de puchamones");
         setSize(900, 650);
+        setMinimumSize(new Dimension(900,650));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -36,15 +31,18 @@ public class FramePrincipal extends JFrame {
         InterfazEstadisticas estadisticas = new InterfazEstadisticas(config, controladorPaneles, paneles);
         InterfazEquipo equipo = new InterfazEquipo(config,controladorPaneles, paneles);
         InterfazRegistroPuchamon registroPuchamon = new InterfazRegistroPuchamon(config, controladorPaneles, paneles);
+        InterfazArena arena = new InterfazArena(config, controladorPaneles, paneles);
 
         paneles.add(menu, "Principal");
         paneles.add(estadisticas, "Estadisticas");
         paneles.add(equipo, "Equipo");
         paneles.add(registroPuchamon, "Requipo");
+        paneles.add(arena, "Arena");
 
         new ContoladorEstadisticas(estadisticas, menu, usuario);
         new ControladorEquipo(equipo, menu, usuario);
-        new ControladorRegistroPuchamon(registroPuchamon, equipo, usuario);
+        new ControladorRegistroPuchamon(registroPuchamon, equipo, menu, usuario);
+        new ControladorArena(arena, menu, usuario);
         ControladorMenuPrincipal con = new ControladorMenuPrincipal(menu);
         con.CargarImagenesBtn();
 

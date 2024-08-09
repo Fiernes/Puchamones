@@ -1,5 +1,3 @@
-Usuario: Fiernes, NombreP: Canelo, TipoP: Fuego, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Fuego-1.png
-Usuario: Fiernes, NombreP: a, TipoP: Fuego, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Fuego-5.png
-Usuario: Fiernes, NombreP: c, TipoP: Psiquico, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Psiquico-4.png
-Usuario: Fiernes, NombreP: Puchamon, TipoP: Psiquico, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Psiquico-5.png
-Usuario: Edel, NombreP: e, TipoP: Electrico, NivelP: 1, VidaP: 250, AtaqueP: 10, DefensaP: 5, Experiencia: 0, Imagen: src\imagenes\Puchamones\Electrico-1.jpg
+Usuario: Fiernes, NombreP: Piñasaurio, TipoP: Planta, NivelP: 1, VidaP: 250, AtaqueP: 68, DefensaP: 78, Experiencia: 0, Imagen: src\imagenes\Puchamones\Planta-5.png
+Usuario: Fiernes, NombreP: Dragoncin, TipoP: Agua, NivelP: 1, VidaP: 250, AtaqueP: 69, DefensaP: 66, Experiencia: 0, Imagen: src\imagenes\Puchamones\Agua-3.png
+Usuario: Fiernes, NombreP: s, TipoP: Fuego, NivelP: 1, VidaP: 250, AtaqueP: 63, DefensaP: 89, Experiencia: 0, Imagen: src\imagenes\Puchamones\Fuego-2.png

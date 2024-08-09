@@ -1,8 +1,12 @@
 import Modelo.Configuracion;
 import Vista.FrameInicio;
-import Vista.InterfazInicio;
+import javafx.application.Application;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.File;
 import java.util.Map;
 
 public class Main {
@@ -24,7 +28,19 @@ public class Main {
         String rutaArchivo = (seleccion == 1) ? "/BaseDatos/configuracion_en.txt" : "/BaseDatos/configuracion_es.txt";
 
         Map<String, String> config = Configuracion.cargarConfiguracion(rutaArchivo);
+/*
+        // Reproducir el archivo de audio .mp3
+        String rutaAudio = "C:/Users/User/Documents/intellij_proyectos/Puchamones/JuegoPuchamones/src/imagenes/musica.mp3";
+        File archivoAudio = new File(rutaAudio);
+        String rutaAbsoluta = archivoAudio.toURI().toString();
 
+        // Crear el MediaPlayer en el hilo de JavaFX
+        javafx.application.Platform.runLater(() -> {
+            Media media = new Media(rutaAbsoluta);
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
+        });
+*/
         new FrameInicio(config);
     }
 }

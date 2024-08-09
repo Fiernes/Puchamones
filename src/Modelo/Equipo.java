@@ -3,6 +3,7 @@ package Modelo;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Equipo {
     private List<Puchamon> puchamones;
@@ -75,6 +76,76 @@ public class Equipo {
         }
 
         return puchamones;
+    }
+
+    public List<Puchamon> GenerarRival(String usuario){
+        List<Puchamon> puchamonesJugador = new ArrayList<>();
+        List<Puchamon> puchamonesRival = new ArrayList<>();
+        List<Integer> vidaPuchamones = new ArrayList<>();
+
+        Random random = new Random();
+
+        Equipo equi = new Equipo();
+        List<Puchamon> comparar = equi.cargarEquipo();
+
+        // Filtrar los Pokémon del usuario actual
+        for (Puchamon pucha : comparar) {
+            if (usuario.equals(pucha.getUsuario())) {
+                puchamonesJugador.add(pucha);
+            }
+        }
+
+        // Calcular el nivel promedio de los Pokémon del jugador
+        int nivelTotal = 0;
+        for (Puchamon pucha : puchamonesJugador) {
+            nivelTotal += pucha.getNivel();
+            vidaPuchamones.add(pucha.getVida());
+        }
+        int nivelPromedio = puchamonesJugador.size() > 0 ? nivelTotal / puchamonesJugador.size() : 1;
+
+        // Obtener la lista de imágenes
+        File imagesDir = new File("src/imagenes/Puchamones");
+        File[] archivosImagenes = imagesDir.isDirectory() ? imagesDir.listFiles() : new File[0];
+
+        // Generar los Pokémon rivales
+        for (int i = 0; i < 3; i++) {
+            Puchamon puchamonRival = new Puchamon();
+            int nivelRival = nivelPromedio; // Nivel igual al promedio
+
+            // Ajustar niveles según las reglas
+            if (i == 1) { // Segundo Pokémon de menor nivel
+                nivelRival = Math.max(nivelPromedio - 1, 1);
+            } else if (i == 2) { // Tercer Pokémon de menor nivel
+                nivelRival = Math.max(nivelPromedio - 2, 1);
+            } else if (i == 3) { // Primer Pokémon de mayor nivel
+                nivelRival = nivelPromedio + 1;
+            }
+
+            puchamonRival.setNivel(nivelRival);
+
+            // Generar valores de ataque y defensa aleatorios y ajustarlos
+            int ataque = 50 + random.nextInt(51); // Valor inicial entre 50 y 100
+            int defensa = 50 + random.nextInt(51); // Valor inicial entre 50 y 100
+
+            // Ajustar ataque y defensa según el nivel
+            ataque += random.nextInt(3) + 3 * nivelRival;
+            defensa += random.nextInt(3) + 3 * nivelRival;
+            int vida = vidaPuchamones.get(i);
+
+            puchamonRival.setAtaque(ataque);
+            puchamonRival.setDefensa(defensa);
+            puchamonRival.setVida(vida);
+
+            // Asignar una imagen aleatoria del directorio
+            if (archivosImagenes.length > 0) {
+                File imagenFile = archivosImagenes[random.nextInt(archivosImagenes.length)];
+                puchamonRival.setRutaImagen(imagenFile.getPath());
+            }
+
+            puchamonesRival.add(puchamonRival);
+        }
+
+        return puchamonesRival;
     }
 
     private Puchamon parsePuchamon(String line) {

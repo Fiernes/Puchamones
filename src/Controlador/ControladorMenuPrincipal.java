@@ -38,7 +38,7 @@ public class ControladorMenuPrincipal {
     }
 
     public void CargarImagenesBtn(){
-        ImageIcon iconoArena = AjustarImagen("/imagenes/Arena.jpg", 200, 300,0.5f);
+        ImageIcon iconoArena = AjustarImagen("/imagenes/ArenaBtn.jpg", 200, 300,0.5f);
         arena.setIcon(iconoArena);
         ImageIcon iconoEquipo = AjustarImagen("/imagenes/btnEquipo.jpg", 200, 300,0.5f);
         equipo.setIcon(iconoEquipo);
@@ -69,13 +69,13 @@ public class ControladorMenuPrincipal {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            ImageIcon iconoArena = AjustarImagen("/imagenes/Arena.jpg", 200, 300,1f);
+            ImageIcon iconoArena = AjustarImagen("/imagenes/ArenaBtn.jpg", 200, 300,1f);
             arena.setIcon(iconoArena);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            ImageIcon iconoArena = AjustarImagen("/imagenes/Arena.jpg", 200, 300,0.5f);
+            ImageIcon iconoArena = AjustarImagen("/imagenes/ArenaBtn.jpg", 200, 300,0.5f);
             arena.setIcon(iconoArena);
         }
     }

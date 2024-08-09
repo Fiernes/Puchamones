@@ -150,10 +150,6 @@ public class InterfazEquipo extends PanelFondo {
         setBorder(new MatteBorder(2, 3, 2, 3, color));
         setLayout(new BorderLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-
         panelElegidos = new JPanel();
         panelElegidos.setLayout(new GridBagLayout());
         panelElegidos.setOpaque(false);

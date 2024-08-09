@@ -170,6 +170,10 @@ public class InterfazMPrincipal extends PanelFondo {
         btnCerrarSesion.addMouseListener(mo);
     }
 
+    public void OyenteArena(ActionListener po){
+        btnArena.addActionListener(po);
+    }
+
     public void OyenteEstadisticas(ActionListener po) {
         btnEstadisticas.addActionListener(po);
     }
