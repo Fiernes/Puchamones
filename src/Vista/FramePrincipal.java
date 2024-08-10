@@ -32,17 +32,19 @@ public class FramePrincipal extends JFrame {
         InterfazEquipo equipo = new InterfazEquipo(config,controladorPaneles, paneles);
         InterfazRegistroPuchamon registroPuchamon = new InterfazRegistroPuchamon(config, controladorPaneles, paneles);
         InterfazArena arena = new InterfazArena(config, controladorPaneles, paneles);
+        InterfazApuesta apuesta = new InterfazApuesta(config, controladorPaneles, paneles);
 
         paneles.add(menu, "Principal");
         paneles.add(estadisticas, "Estadisticas");
         paneles.add(equipo, "Equipo");
         paneles.add(registroPuchamon, "Requipo");
         paneles.add(arena, "Arena");
+        paneles.add(apuesta, "Apuesta");
 
         new ContoladorEstadisticas(estadisticas, menu, usuario);
         new ControladorEquipo(equipo, menu, usuario);
         new ControladorRegistroPuchamon(registroPuchamon, equipo, menu, usuario);
-        new ControladorArena(arena, menu, usuario);
+        new ControladorArena(arena, menu, usuario, apuesta);
         ControladorMenuPrincipal con = new ControladorMenuPrincipal(menu);
         con.CargarImagenesBtn();
 

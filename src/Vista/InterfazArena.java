@@ -27,6 +27,22 @@ public class InterfazArena extends PanelFondo {
     private JButton btnCambiarP;
     private JButton btnSalirA;
 
+    public JProgressBar getVidaPuchamonJugador() {
+        return vidaPuchamonJugador;
+    }
+
+    public JLabel getLabelnombrePuchamonJugador() {
+        return labelnombrePuchamonJugador;
+    }
+
+    public JProgressBar getVidaPuchamonNpc() {
+        return VidaPuchamonNpc;
+    }
+
+    public JLabel getLabelnombrePuchamonNpc() {
+        return labelnombrePuchamonNpc;
+    }
+
     public CardLayout getCard() {
         return card;
     }
@@ -81,6 +97,10 @@ public class InterfazArena extends PanelFondo {
 
     public void setPanelEquiposPuchamones(JPanel panelEquiposPuchamones) {
         this.panelEquiposPuchamones = panelEquiposPuchamones;
+    }
+
+    public JLabel getLabeltotalApuesta() {
+        return labeltotalApuesta;
     }
 
     public InterfazArena(Map<String, String> config, CardLayout cardLayout, JPanel paneles){

@@ -135,6 +135,7 @@ public class Equipo {
             puchamonRival.setAtaque(ataque);
             puchamonRival.setDefensa(defensa);
             puchamonRival.setVida(vida);
+            puchamonRival.setNombre("NPC" + " " + i+1);
 
             // Asignar una imagen aleatoria del directorio
             if (archivosImagenes.length > 0) {

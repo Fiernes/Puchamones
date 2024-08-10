@@ -2,6 +2,7 @@ package Controlador;
 
 import Modelo.Equipo;
 import Modelo.Puchamon;
+import Vista.InterfazApuesta;
 import Vista.InterfazArena;
 import Vista.InterfazMPrincipal;
 
@@ -27,9 +28,13 @@ public class ControladorArena {
     private int alto = 75;
     private List<Puchamon> puchamonesJugador = new ArrayList<>();
     private List<Puchamon> puchamonesNpc = new ArrayList<>();
-    private int apuesta;
+    private int apuesta2;
+    private JProgressBar vidaPuJu;
+    private JLabel nombrePuJu;
+    private JProgressBar vidaPuNpc;
+    private JLabel nombrePuNpc;
 
-    public ControladorArena(InterfazArena vista, InterfazMPrincipal menu, String usuario){
+    public ControladorArena(InterfazArena vista, InterfazMPrincipal menu, String usuario, InterfazApuesta apuesta){
 
         this.cardLayout = vista.getCard();
         this.configuracion = vista.getConfiguracion();
@@ -39,12 +44,39 @@ public class ControladorArena {
         this.btnCambiarP = vista.getBtnCambiarP();
         this.btnSalirA = vista.getBtnSalirA();
         this.usuario = usuario;
+        this.vidaPuJu = vista.getVidaPuchamonJugador();
+        this.nombrePuJu = vista.getLabelnombrePuchamonJugador();
+        this.vidaPuNpc = vista.getVidaPuchamonNpc();
+        this.nombrePuNpc = vista.getLabelnombrePuchamonNpc();
 
         menu.OyenteArena(new OyenteBtnArena());
 
         vista.OyenteMauseBtnAtacar(new OyenteMouseBtnAtacar());
         vista.OyenteMauseBtnCambiarP(new OyenteMouseBtnCambiarP());
         vista.OyenteMauseBtnSalirA(new OyenteMouseBtnSalirA());
+
+        apuesta.getBtnContinuar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                apuesta2 = (int) apuesta.getComboBox().getSelectedItem();
+                Equipo qwee = new Equipo();
+                qwee.GenerarRival(usuario);
+                CargarImagenesBtn();
+                apuesta2 = apuesta2 * 2;
+                vista.getLabeltotalApuesta().setText(String.valueOf(apuesta2));
+                agregarPaneles(usuario);
+                cardLayout.show(paneles, "Arena");
+            }
+        });
+
+        // Configurar acción para el botón "Cancelar"
+        apuesta.getBtnCancelar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                apuesta.getComboBox().setSelectedIndex(0);
+                apuesta.getCardLayout().show(apuesta.getPaneles(), "Principal");
+            }
+        });
     }
 
     private ImageIcon AjustarImagen(String ruta, int ancho, int alto, float opacidad) {
@@ -117,11 +149,18 @@ public class ControladorArena {
         int x = 0;
 
         // Añadir los Puchamones del jugador
-        for (Puchamon datos : puchamonesJugador) {
+        for (int i = 0; i < puchamonesJugador.size(); i++) {
+            Puchamon datos = puchamonesJugador.get(i);
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
             panel.setOpaque(false);
-            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
+
+            // Cambiar borde a azul si es el primer Puchamon
+            if (i == 2) {
+                panel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+            } else {
+                panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+            }
 
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.NONE;
@@ -148,11 +187,18 @@ public class ControladorArena {
         }
 
         // Añadir los Puchamones del NPC
-        for (Puchamon datos : puchamonesNpc) {
+        for (int i = 0; i < puchamonesNpc.size(); i++) {
+            Puchamon datos = puchamonesNpc.get(i);
             JPanel panel = new JPanel();
             panel.setLayout(new GridBagLayout());
             panel.setOpaque(false);
-            panel.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
+
+            // Cambiar borde a azul si es el primer Puchamon
+            if (i == 0) {
+                panel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+            } else {
+                panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+            }
 
             GridBagConstraints gbc = new GridBagConstraints();
             gbc.fill = GridBagConstraints.NONE;
@@ -178,9 +224,21 @@ public class ControladorArena {
             panelElegidos.add(panel, gbcContenedor);
         }
 
+        // Cargar la vida y los nombres de los Puchamones en la posición 0
+        if (!puchamonesJugador.isEmpty() && !puchamonesNpc.isEmpty()) {
+            vidaPuJu.setForeground(Color.GREEN);
+            vidaPuNpc.setForeground(Color.GREEN);
+            // Suponiendo que tienes getters para estas barras de progreso y labels
+            vidaPuJu.setValue(puchamonesJugador.get(2).getVida());
+            vidaPuNpc.setValue(puchamonesNpc.get(0).getVida());
+            nombrePuJu.setText(puchamonesJugador.get(2).getNombre());
+            nombrePuNpc.setText(puchamonesNpc.get(0).getNombre());
+        }
+
         panelElegidos.revalidate();
         panelElegidos.repaint();
     }
+
 
     public class OyenteMouseBtnAtacar implements MouseListener{
 
@@ -274,11 +332,7 @@ public class ControladorArena {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Equipo qwee = new Equipo();
-            qwee.GenerarRival(usuario);
-            CargarImagenesBtn();
-            agregarPaneles(usuario);
-            cardLayout.show(paneles, "Arena");
+            cardLayout.show(paneles,"Apuesta");
         }
     }
 }
