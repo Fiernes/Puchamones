@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -102,9 +103,11 @@ public class Jugador {
     }
 
     // Registra un nuevo jugador
+    // Registra un nuevo jugador
     public void registrarJugador() {
-        String nombreArchivo = "src/BaseDatos/Usuarios.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
+        String nombreArchivo = "BaseDatos/Usuarios.txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(nombreArchivo), true))) {
             writer.write("Nombre: " + nombre + ", ");
             writer.write("Correo: " + correo + ", ");
             writer.write("Nombre de Usuario: " + nombreUsuario + ", ");
@@ -117,6 +120,8 @@ public class Jugador {
             System.err.println("Error al registrar el jugador: " + e.getMessage());
         }
     }
+
+
 
     // Realiza una apuesta
     public int realizarApuesta(int cantidad) {

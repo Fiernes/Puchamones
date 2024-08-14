@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ControladorArena {
 
@@ -28,11 +29,21 @@ public class ControladorArena {
     private int alto = 75;
     private List<Puchamon> puchamonesJugador = new ArrayList<>();
     private List<Puchamon> puchamonesNpc = new ArrayList<>();
+    private List<Integer> vidasMaximasPu = new ArrayList<>();
     private int apuesta2;
     private JProgressBar vidaPuJu;
     private JLabel nombrePuJu;
     private JProgressBar vidaPuNpc;
     private JLabel nombrePuNpc;
+    private JLabel labelTiempoTurno;
+    private int puchamonSeleccionadoNpc;
+    private int puchamonSeleccionadoJugador;
+    private Timer timer;
+    private int tiempoRestante = 30;
+    private boolean esTurnoJugador = true; // Comienza con el turno del jugador
+    private JFrame seleccionarPuchamonFrame = new JFrame("Seleccionar Puchamon");
+    private int ataquesFallidosConsecutivosJugador = 0;
+    private int ataquesFallidosConsecutivosNpc = 0;
 
     public ControladorArena(InterfazArena vista, InterfazMPrincipal menu, String usuario, InterfazApuesta apuesta){
 
@@ -48,6 +59,7 @@ public class ControladorArena {
         this.nombrePuJu = vista.getLabelnombrePuchamonJugador();
         this.vidaPuNpc = vista.getVidaPuchamonNpc();
         this.nombrePuNpc = vista.getLabelnombrePuchamonNpc();
+        this.labelTiempoTurno = vista.getLabeltiempoJugada();
 
         menu.OyenteArena(new OyenteBtnArena());
 
@@ -66,6 +78,7 @@ public class ControladorArena {
                 vista.getLabeltotalApuesta().setText(String.valueOf(apuesta2));
                 agregarPaneles(usuario);
                 cardLayout.show(paneles, "Arena");
+                iniciarTimer();
             }
         });
 
@@ -77,6 +90,186 @@ public class ControladorArena {
                 apuesta.getCardLayout().show(apuesta.getPaneles(), "Principal");
             }
         });
+    }
+
+    private void iniciarTimer() {
+        // Instanciar la clase Random para generar un valor aleatorio
+        Random random = new Random();
+
+        // Generar un valor booleano aleatorio para determinar quién empieza
+        esTurnoJugador = random.nextBoolean();
+
+        // Actualizar la etiqueta del turno basado en quién empieza
+        if (esTurnoJugador) {
+            JPanel panelJugador = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoJugador);
+            panelJugador.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
+
+            JPanel panelNpc = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoNpc + 3);
+            panelNpc.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+
+        } else {
+
+            JPanel panelNpc = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoNpc + 3);
+            panelNpc.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
+
+            JPanel panelJugador = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoJugador);
+            panelJugador.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+
+            realizarAtaqueNpc(); // Inicia el ataque del NPC
+        }
+
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (tiempoRestante > 0) {
+                    tiempoRestante--;
+                    labelTiempoTurno.setText("Tiempo: " + tiempoRestante + "s");
+                } else {
+                    cambiarTurno();
+                }
+            }
+        });
+        timer.start();
+    }
+
+    private void cambiarTurno() {
+        Random random = new Random();
+        esTurnoJugador = !esTurnoJugador;
+
+        // Probabilidad del 30% de que el turno se repita
+        if (random.nextInt(100) < 30) {
+            // Si se repite el turno, revertimos el cambio de turno
+            esTurnoJugador = !esTurnoJugador;
+        }
+
+        tiempoRestante = 30; // Reiniciar el tiempo
+        labelTiempoTurno.setText("Tiempo: " + tiempoRestante + "s");
+
+        // Panel del NPC por defecto
+        JPanel panelNpcDefault = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoNpc + 3);
+        panelNpcDefault.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+
+        // Panel del jugador por defecto
+        JPanel panelJugador = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoJugador);
+        panelJugador.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
+
+        if (!esTurnoJugador) {
+            // Generar un tiempo de espera aleatorio entre 1 y 10 segundos
+            int tiempoEspera = (random.nextInt(10) + 1) * 1000; // Convertir a milisegundos
+
+            // Panel del jugador por defecto
+            JPanel panelJugadorDefault = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoJugador);
+            panelJugadorDefault.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+
+            // Panel del NPC en turno
+            JPanel panelNpc = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoNpc + 3);
+            panelNpc.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
+
+            // Iniciar el temporizador para el ataque del NPC
+            Timer timer = new Timer(tiempoEspera, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    realizarAtaqueNpc();
+                }
+            });
+
+            // Asegurarse de que el temporizador solo se dispare una vez
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }
+
+
+    private void realizarAtaqueNpc() {
+        Puchamon puchamonJugador = puchamonesJugador.get(puchamonSeleccionadoJugador);
+        Puchamon puchamonNpc = puchamonesNpc.get(puchamonSeleccionadoNpc);
+
+        int ataque = puchamonNpc.getAtaque();
+        int defensa = puchamonJugador.getDefensa();
+
+        // Calcula el daño potencial
+        int damage = ataque - defensa;
+
+        // Verifica si el daño es menor o igual a cero
+        if (damage <= 0) {
+            damage = 0;
+            ataquesFallidosConsecutivosNpc++;
+        } else {
+            // Si el daño es positivo, reinicia el contador de ataques fallidos del NPC
+            ataquesFallidosConsecutivosNpc = 0;
+        }
+
+        // Si hay dos ataques fallidos consecutivos, duplica el daño en el tercer ataque
+        if (ataquesFallidosConsecutivosNpc == 2) {
+            ataque = ataque * 2;
+            damage = ataque - defensa;
+            ataquesFallidosConsecutivosNpc = 0; // Reinicia el contador después del ataque potenciado
+        }
+
+        // Calcula la nueva vida del jugador asegurándose de que no sea negativa
+        int nuevaVidaJugador = Math.max(0, puchamonJugador.getVida() - damage);
+        puchamonJugador.setVida(nuevaVidaJugador);
+        vidaPuJu.setValue(nuevaVidaJugador);
+
+        // Actualiza el estado del Puchamon del jugador en la lista
+        puchamonesJugador.set(puchamonSeleccionadoJugador, puchamonJugador);
+
+        // Cambia el turno
+        cambiarTurno();
+    }
+
+    private void realizarAtaqueJugador() {
+        // Instancia de la clase Random para generar números aleatorios
+        Random random = new Random();
+
+        Puchamon puchamonJugador = puchamonesJugador.get(puchamonSeleccionadoJugador);
+        Puchamon puchamonNpc = puchamonesNpc.get(puchamonSeleccionadoNpc);
+
+        int ataque = puchamonJugador.getAtaque();
+        int defensa = puchamonNpc.getDefensa();
+
+        // Calcula el daño potencial
+        int damage = ataque - defensa;
+
+        // Verifica si el daño es menor o igual a cero
+        if (damage <= 0) {
+            damage = 0;
+            ataquesFallidosConsecutivosJugador++;
+        } else {
+            // Si el daño es positivo, reinicia el contador de ataques fallidos del jugador
+            ataquesFallidosConsecutivosJugador = 0;
+        }
+
+        // Si hay dos ataques fallidos consecutivos, duplica el daño en el tercer ataque
+        if (ataquesFallidosConsecutivosJugador == 2) {
+            ataque = ataque * 2;
+            damage = ataque - defensa;
+            ataquesFallidosConsecutivosJugador = 0; // Reinicia el contador después del ataque potenciado
+        }
+
+        // Genera un número aleatorio entre 0 y 99
+        int probabilidad = random.nextInt(100);
+
+        // Verifica si la probabilidad es menor al 40% (40 de 100)
+        if (probabilidad < 40) {
+            damage = damage * 2; // Duplica el daño
+        }
+
+        // Calcula la nueva vida del NPC asegurándose de que no sea negativa
+        int nuevaVidaNpc = Math.max(0, puchamonNpc.getVida() - damage);
+        puchamonNpc.setVida(nuevaVidaNpc);
+        vidaPuNpc.setValue(nuevaVidaNpc);
+
+        // Actualiza el estado del Puchamon del NPC en la lista
+        puchamonesNpc.set(puchamonSeleccionadoNpc, puchamonNpc);
+
+        // Verifica si el Puchamon del NPC ha sido derrotado
+        if (puchamonesNpc.get(puchamonSeleccionadoNpc).getVida() == 0) {
+            CambiarPuchamonNpc();
+        }
+
+        // Cambia el turno
+        cambiarTurno();
     }
 
     private ImageIcon AjustarImagen(String ruta, int ancho, int alto, float opacidad) {
@@ -114,6 +307,7 @@ public class ControladorArena {
         for (Puchamon pucha : listaDatos) {
             if (jugador.equals(pucha.getUsuario())) {
                 puchamonesJugador.add(pucha);
+                vidasMaximasPu.add(pucha.getVida());
             }
         }
 
@@ -148,7 +342,8 @@ public class ControladorArena {
 
         int x = 0;
 
-        // Añadir los Puchamones del jugador
+        puchamonSeleccionadoJugador = 0;
+
         for (int i = 0; i < puchamonesJugador.size(); i++) {
             Puchamon datos = puchamonesJugador.get(i);
             JPanel panel = new JPanel();
@@ -156,7 +351,7 @@ public class ControladorArena {
             panel.setOpaque(false);
 
             // Cambiar borde a azul si es el primer Puchamon
-            if (i == 2) {
+            if (i == puchamonSeleccionadoJugador) {
                 panel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
             } else {
                 panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
@@ -186,6 +381,8 @@ public class ControladorArena {
             panelElegidos.add(panel, gbcContenedor);
         }
 
+        puchamonSeleccionadoNpc = 0;
+
         // Añadir los Puchamones del NPC
         for (int i = 0; i < puchamonesNpc.size(); i++) {
             Puchamon datos = puchamonesNpc.get(i);
@@ -194,7 +391,7 @@ public class ControladorArena {
             panel.setOpaque(false);
 
             // Cambiar borde a azul si es el primer Puchamon
-            if (i == 0) {
+            if (i == puchamonSeleccionadoNpc) {
                 panel.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
             } else {
                 panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
@@ -229,10 +426,12 @@ public class ControladorArena {
             vidaPuJu.setForeground(Color.GREEN);
             vidaPuNpc.setForeground(Color.GREEN);
             // Suponiendo que tienes getters para estas barras de progreso y labels
-            vidaPuJu.setValue(puchamonesJugador.get(2).getVida());
-            vidaPuNpc.setValue(puchamonesNpc.get(0).getVida());
-            nombrePuJu.setText(puchamonesJugador.get(2).getNombre());
-            nombrePuNpc.setText(puchamonesNpc.get(0).getNombre());
+            vidaPuJu.setMaximum(puchamonesJugador.get(puchamonSeleccionadoJugador).getVida());
+            vidaPuJu.setValue(puchamonesJugador.get(puchamonSeleccionadoJugador).getVida());
+            vidaPuNpc.setMaximum(puchamonesNpc.get(puchamonSeleccionadoJugador).getVida());
+            vidaPuNpc.setValue(puchamonesNpc.get(puchamonSeleccionadoNpc).getVida());
+            nombrePuJu.setText(puchamonesJugador.get(puchamonSeleccionadoJugador).getNombre());
+            nombrePuNpc.setText(puchamonesNpc.get(puchamonSeleccionadoNpc).getNombre());
         }
 
         panelElegidos.revalidate();
@@ -240,21 +439,18 @@ public class ControladorArena {
     }
 
 
+    // Oyente modificado para el botón "Atacar"
     public class OyenteMouseBtnAtacar implements MouseListener{
 
         @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
+        public void mouseClicked(MouseEvent e) {}
 
         @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
+        public void mousePressed(MouseEvent e) {}
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
+            realizarAtaqueJugador();
         }
 
         @Override
@@ -269,35 +465,7 @@ public class ControladorArena {
             btnAtacar.setIcon(iconoArena);
         }
     }
-    public class OyenteMouseBtnCambiarP implements MouseListener{
 
-        @Override
-        public void mouseClicked(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            ImageIcon iconoArena = AjustarImagen("/imagenes/panelBtnArena.png", ancho, alto,1f);
-            btnCambiarP.setIcon(iconoArena);
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            ImageIcon iconoArena = AjustarImagen("/imagenes/panelBtnArena.png", ancho, alto,0.5f);
-            btnCambiarP.setIcon(iconoArena);
-        }
-    }
     public class OyenteMouseBtnSalirA implements MouseListener{
 
         @Override
@@ -335,4 +503,129 @@ public class ControladorArena {
             cardLayout.show(paneles,"Apuesta");
         }
     }
+
+    public class OyenteMouseBtnCambiarP implements MouseListener {
+
+        private boolean isWindowOpen = false; // Bandera para verificar si la ventana está abierta
+
+        @Override
+        public void mouseClicked(MouseEvent e) {}
+
+        @Override
+        public void mousePressed(MouseEvent e) {}
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            // Si la ventana está abierta, no hacer nada
+            if (isWindowOpen) {
+                return;
+            }
+            // Si no está abierta, la abrimos
+            CambioPuchamon();
+            cambiarTurno();
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            ImageIcon iconoArena = AjustarImagen("/imagenes/panelBtnArena.png", ancho, alto, 1f);
+            btnCambiarP.setIcon(iconoArena);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            ImageIcon iconoArena = AjustarImagen("/imagenes/panelBtnArena.png", ancho, alto, 0.5f);
+            btnCambiarP.setIcon(iconoArena);
+        }
+
+        private void CambioPuchamon(){
+            seleccionarPuchamonFrame.getContentPane().removeAll();
+            isWindowOpen = true; // Actualizamos la bandera a true porque la ventana está a punto de abrirse
+
+            // Crear el nuevo JFrame para seleccionar Puchamon
+            seleccionarPuchamonFrame.setLayout(new GridLayout(3, 1));
+            seleccionarPuchamonFrame.setSize(300, 200);
+            seleccionarPuchamonFrame.setUndecorated(true);
+
+            // Añadir un WindowListener para cambiar la bandera al cerrar la ventana
+            seleccionarPuchamonFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                    isWindowOpen = false; // Actualizamos la bandera a false porque la ventana se está cerrando
+                }
+
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                    isWindowOpen = false; // Actualizamos la bandera a false porque la ventana está cerrada
+                }
+            });
+
+            // Crear botones con los nombres de los Puchamones del jugador
+            for (int i = 0; i < puchamonesJugador.size(); i++) {
+                JButton btnPuchamon = getjButton(i, seleccionarPuchamonFrame);
+                seleccionarPuchamonFrame.add(btnPuchamon);
+            }
+            seleccionarPuchamonFrame.setVisible(true);
+        }
+
+        private JButton getjButton(int i, JFrame seleccionarPuchamonFrame) {
+            final int indicePuchamon = i; // Necesario para referenciar dentro del ActionListener
+            Puchamon puchamon = puchamonesJugador.get(i);
+            JButton btnPuchamon = new JButton(puchamon.getNombre());
+            btnPuchamon.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    // Actualizar el puchamonSeleccionadoJugador y cerrar el JFrame
+                    JPanel panelJugador = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoJugador);
+                    panelJugador.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+                    puchamonSeleccionadoJugador = indicePuchamon;
+                    actualizarPanelesJugador();
+                    seleccionarPuchamonFrame.dispose();
+                    isWindowOpen = false; // Actualizamos la bandera a false porque la ventana se está cerrando
+                }
+            });
+            return btnPuchamon;
+        }
+    }
+
+
+    private void actualizarPanelesJugador() {
+        // Actualiza el borde del Puchamon seleccionado
+        JPanel panelJugador = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoJugador);
+        panelJugador.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+
+        // Actualiza la vida y el nombre en la interfaz
+        Puchamon puchamon = puchamonesJugador.get(puchamonSeleccionadoJugador);
+        vidaPuJu.setMaximum(vidasMaximasPu.get(puchamonSeleccionadoJugador));
+        vidaPuJu.setValue(puchamon.getVida());
+        nombrePuJu.setText(puchamon.getNombre());
+
+        panelPuchamonesElegidos.revalidate();
+        panelPuchamonesElegidos.repaint();
+    }
+
+    private void CambiarPuchamonNpc() {
+        // Actualiza el borde del Puchamon seleccionado
+        Random random = new Random();
+        int[] numerosPermitidos = {0, 1, 2};
+
+        JPanel panelNpcAnterior = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoNpc + 3);
+        panelNpcAnterior.setBorder(BorderFactory.createLineBorder(Color.BLACK, 5));
+
+        do {
+            puchamonSeleccionadoNpc = random.nextInt(numerosPermitidos.length);
+        } while (puchamonesNpc.get(puchamonSeleccionadoNpc).getVida() == 0);
+
+        JPanel panelNpc = (JPanel) panelPuchamonesElegidos.getComponent(puchamonSeleccionadoNpc + 3);
+        panelNpc.setBorder(BorderFactory.createLineBorder(Color.BLUE, 5));
+
+        // Actualiza la vida y el nombre en la interfaz
+        Puchamon puchamon = puchamonesNpc.get(puchamonSeleccionadoNpc);
+        vidaPuNpc.setMaximum(vidasMaximasPu.get(puchamonSeleccionadoNpc));
+        vidaPuNpc.setValue(puchamon.getVida());
+        nombrePuNpc.setText(puchamon.getNombre());
+
+        panelPuchamonesElegidos.revalidate();
+        panelPuchamonesElegidos.repaint();
+    }
+
 }

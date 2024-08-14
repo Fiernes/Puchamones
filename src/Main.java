@@ -28,19 +28,6 @@ public class Main {
         String rutaArchivo = (seleccion == 1) ? "/BaseDatos/configuracion_en.txt" : "/BaseDatos/configuracion_es.txt";
 
         Map<String, String> config = Configuracion.cargarConfiguracion(rutaArchivo);
-/*
-        // Reproducir el archivo de audio .mp3
-        String rutaAudio = "C:/Users/User/Documents/intellij_proyectos/Puchamones/JuegoPuchamones/src/imagenes/musica.mp3";
-        File archivoAudio = new File(rutaAudio);
-        String rutaAbsoluta = archivoAudio.toURI().toString();
-
-        // Crear el MediaPlayer en el hilo de JavaFX
-        javafx.application.Platform.runLater(() -> {
-            Media media = new Media(rutaAbsoluta);
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.play();
-        });
-*/
         new FrameInicio(config);
     }
 }

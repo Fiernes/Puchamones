@@ -27,6 +27,10 @@ public class InterfazArena extends PanelFondo {
     private JButton btnCambiarP;
     private JButton btnSalirA;
 
+    public JLabel getLabeltiempoJugada() {
+        return labeltiempoJugada;
+    }
+
     public JProgressBar getVidaPuchamonJugador() {
         return vidaPuchamonJugador;
     }
@@ -145,7 +149,7 @@ public class InterfazArena extends PanelFondo {
         labeltiempoJugada.setFont(fuente);
         labeltiempoJugada.setForeground(colorLetras);
         labeltiempoJugada.setOpaque(false);
-        labeltiempoJugada.setPreferredSize(new Dimension(60, 60));
+        labeltiempoJugada.setPreferredSize(new Dimension(240, 60));
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.CENTER; // Centrado
@@ -224,17 +228,5 @@ public class InterfazArena extends PanelFondo {
     }
     public void OyenteMauseBtnSalirA(MouseListener mo){
         btnSalirA.addMouseListener(mo);
-    }
-
-    public void OyenteBtnAtacar(ActionListener po){
-        btnAtacar.addActionListener(po);
-    }
-
-    public void OyenteBtnCambiar(ActionListener po){
-        btnCambiarP.addActionListener(po);
-    }
-
-    public void OyenteBtnSalir(ActionListener po){
-        btnSalirA.addActionListener(po);
     }
 }
