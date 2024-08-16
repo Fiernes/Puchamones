@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+import java.net.URL;
 
 public class ControladorRegistroPuchamon {
 
@@ -52,10 +53,20 @@ public class ControladorRegistroPuchamon {
 
     }
 
-    public void PanelImagenes(String ruta, String criterio) {
-        File imagesDir = new File(ruta);
+    public void PanelImagenes(String rutaRelativa, String criterio) {
+        // Obtener el directorio de recursos desde el classloader
+        URL resourceUrl = getClass().getClassLoader().getResource(rutaRelativa);
+
+        if (resourceUrl == null) {
+            System.out.println("No se pudo encontrar la ruta: " + rutaRelativa);
+            return;
+        }
+
+        File imagesDir = new File(resourceUrl.getPath());
+
         if (imagesDir.isDirectory()) {
             panelImagenes.removeAll();
+
             for (File file : imagesDir.listFiles()) {
                 if (file.isFile() && isImageFile(file)) {
                     String fileName = file.getName().toLowerCase(); // Convertimos el nombre a minúsculas para evitar problemas con mayúsculas y minúsculas
@@ -66,9 +77,9 @@ public class ControladorRegistroPuchamon {
                             JLabel imageLabel = new JLabel(icon);
                             imageLabel.setOpaque(false);
                             imageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
                             imageLabel.addMouseListener(new MouseAdapter() {
                                 public void mouseReleased(MouseEvent evt) {
-
                                     if (labelultimaSeleccionada != null) {
                                         labelultimaSeleccionada.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                                     }
@@ -76,9 +87,13 @@ public class ControladorRegistroPuchamon {
                                     imageLabel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
                                     labelultimaSeleccionada = imageLabel;
 
-                                    rutaImagen = file.getPath();
+                                    // Aquí, obtenemos la ruta relativa a partir del file y del directorio raíz
+                                    String rutaRelativaImagen = new File(imagesDir.getPath()).toURI().relativize(file.toURI()).getPath();
+                                    rutaImagen = rutaRelativaImagen;
+                                    System.out.println("Ruta relativa de la imagen seleccionada: " + rutaImagen);
                                 }
                             });
+
                             panelImagenes.add(imageLabel);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -86,10 +101,12 @@ public class ControladorRegistroPuchamon {
                     }
                 }
             }
+
             panelImagenes.revalidate();
             panelImagenes.repaint();
         }
     }
+
 
     private boolean isImageFile(File file) {
         String[] validExtensions = {"jpg", "jpeg", "png", "gif"};
@@ -181,7 +198,7 @@ public class ControladorRegistroPuchamon {
         public void actionPerformed(ActionEvent e) {
             card.show(panel, "Requipo");
             String tip = tipo.getSelectedItem().toString();
-            PanelImagenes("src/imagenes/Puchamones", tip);
+            PanelImagenes("imagenes/Puchamones", tip);
         }
     }
 
@@ -190,7 +207,7 @@ public class ControladorRegistroPuchamon {
         @Override
         public void actionPerformed(ActionEvent e) {
             String tip = tipo.getSelectedItem().toString();
-            PanelImagenes("src/imagenes/Puchamones", tip);
+            PanelImagenes("imagenes/Puchamones", tip);
         }
     }
 
