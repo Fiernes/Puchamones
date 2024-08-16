@@ -91,8 +91,8 @@ public class InterfazInicio extends PanelFondo {
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
 
-        Color colorLetras = new Color(253, 157, 43, 255);
-        Font fuenteInicio = new Font("Georgia", Font.BOLD, 20);
+        Color colorFuente = new Color(253, 157, 43, 255);
+        Font fuente = new Font("Georgia", Font.BOLD, 20);
         Color color = new Color(191,37,23);
         setBorder(new MatteBorder(2,3,2,3, color));
         setLayout(new GridBagLayout());
@@ -102,8 +102,8 @@ public class InterfazInicio extends PanelFondo {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel labelUsuario = new JLabel(config.getOrDefault("labelUsuario", "Usuario"));
-        labelUsuario.setForeground(colorLetras);
-        labelUsuario.setFont(fuenteInicio);
+        labelUsuario.setForeground(colorFuente);
+        labelUsuario.setFont(fuente);
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(labelUsuario, gbc);
@@ -114,8 +114,8 @@ public class InterfazInicio extends PanelFondo {
         add(txtUsuario, gbc);
 
         JLabel labelPassword = new JLabel(config.getOrDefault("labelPassword", "Contraseña"));
-        labelPassword.setForeground(colorLetras);
-        labelPassword.setFont(fuenteInicio);
+        labelPassword.setForeground(colorFuente);
+        labelPassword.setFont(fuente);
         gbc.gridx = 0;
         gbc.gridy = 1;
         add(labelPassword, gbc);

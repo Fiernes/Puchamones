@@ -159,6 +159,7 @@ public class ControladorRegistro {
         jugador.setEdad((Integer) comboEdad.getSelectedItem());
         jugador.setGenero(genero);
         jugador.setOro(2000);
+        jugador.setNivelJu(1);
         jugador.registrarJugador();
     }
 

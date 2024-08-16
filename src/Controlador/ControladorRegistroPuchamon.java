@@ -25,7 +25,6 @@ public class ControladorRegistroPuchamon {
     private JPanel panel;
     private JTextField txtNombreP;
     private JLabel labelultimaSeleccionada;
-    private JLabel labelseleccionada;
     private JPanel panelImagenes;
     private String usuario;
     private String rutaImagen;
@@ -39,7 +38,6 @@ public class ControladorRegistroPuchamon {
         this.panel = puchamon.getMostrarPaneles();
         this.txtNombreP = puchamon.getTxtNombreP();
         this.labelultimaSeleccionada = puchamon.getUltimaSeleccionada();
-        this.labelseleccionada = puchamon.getSeleccionada();
         this.panelImagenes = puchamon.getPanelImagenes();
         this.usuario = usuario;
         this.tipo = puchamon.getTipoPuchamon();
@@ -68,7 +66,7 @@ public class ControladorRegistroPuchamon {
                             imageLabel.setOpaque(false);
                             imageLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                             imageLabel.addMouseListener(new MouseAdapter() {
-                                public void mousePressed(MouseEvent evt) {
+                                public void mouseReleased(MouseEvent evt) {
 
                                     if (labelultimaSeleccionada != null) {
                                         labelultimaSeleccionada.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -113,7 +111,7 @@ public class ControladorRegistroPuchamon {
             }
         }
 
-        if (maxPuchamones > 3){
+        if (maxPuchamones > 4){
             JOptionPane.showMessageDialog(null, "A alcanzado el maximo de puchamones");
         }else {
             Puchamon pu = new Puchamon();

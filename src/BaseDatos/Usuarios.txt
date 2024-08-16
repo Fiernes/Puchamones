@@ -1,2 +1,0 @@
-Nombre: Fidel Ernesto Gutierrez, Correo: fidel255.gu@gmail.com, Nombre de Usuario: Fiernes, Género: M, Edad: 29, Password: 1234, Oro: 2000
-Nombre: Edel Rolando Gutierrez, Correo: Edel255.gu@gmail.com, Nombre de Usuario: Edel, Género: M, Edad: 30, Password: 123456, Oro: 2000

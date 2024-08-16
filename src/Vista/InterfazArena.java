@@ -191,6 +191,8 @@ public class InterfazArena extends PanelFondo {
         panelOpcionesPelea.setLayout(new FlowLayout());
 
         btnAtacar = new JButton(config.getOrDefault("","Atacar"));
+        btnAtacar.setFont(fuente);
+        btnAtacar.setForeground(colorLetras);
         btnAtacar.setHorizontalTextPosition(SwingConstants.CENTER);
         btnAtacar.setVerticalTextPosition(SwingConstants.CENTER);
         btnAtacar.setOpaque(false);
@@ -198,6 +200,8 @@ public class InterfazArena extends PanelFondo {
         btnAtacar.setBorderPainted(false);
 
         btnCambiarP = new JButton(config.getOrDefault("","Cambiar puchamon"));
+        btnCambiarP.setFont(fuente);
+        btnCambiarP.setForeground(colorLetras);
         btnCambiarP.setHorizontalTextPosition(SwingConstants.CENTER);
         btnCambiarP.setVerticalTextPosition(SwingConstants.CENTER);
         btnCambiarP.setOpaque(false);
@@ -205,6 +209,8 @@ public class InterfazArena extends PanelFondo {
         btnCambiarP.setBorderPainted(false);
 
         btnSalirA = new JButton(config.getOrDefault("","Salir"));
+        btnSalirA.setFont(fuente);
+        btnSalirA.setForeground(colorLetras);
         btnSalirA.setHorizontalTextPosition(SwingConstants.CENTER);
         btnSalirA.setVerticalTextPosition(SwingConstants.CENTER);
         btnSalirA.setOpaque(false);

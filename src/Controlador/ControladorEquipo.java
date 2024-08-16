@@ -18,14 +18,6 @@ public class ControladorEquipo {
     private JPanel panelUltimaSeleccionada;
     private String jugador;
 
-    public ControladorEquipo(){
-        this.card = new CardLayout(); // Inicializa card con una nueva instancia de CardLayout
-        this.panel = new JPanel(card); // Inicializa panel con una nueva instancia de JPanel utilizando el CardLayout
-        this.panelElegidos = new JPanel(); // Inicializa panelElegidos con una nueva instancia de JPanel
-        this.nombrePuchamonSeleccionado = ""; // Inicializa nombrePuchamonSeleccionado con una cadena vacía
-        this.panelUltimaSeleccionada = new JPanel(); // Inicializa panelUltimaSeleccionada con una nueva instancia de JPanel
-    }
-
     public  ControladorEquipo(InterfazEquipo vista, InterfazMPrincipal menu, String usuario){
         this.card = vista.getCardLayout();
         this.panel = vista.getPaneles();
@@ -33,6 +25,7 @@ public class ControladorEquipo {
         this.jugador = usuario;
 
         vista.OyenteBtnAtras(new OyenteAtras());
+        vista.OyenteBtnEliminarP(new OyenteEliminar());
         menu.OyenteEquipo(new OyenteEquipo());
     }
 
@@ -181,6 +174,42 @@ public class ControladorEquipo {
         public void actionPerformed(ActionEvent e) {
             agregarPaneles(jugador);
             card.show(panel, "Equipo");
+        }
+    }
+
+    public class OyenteEliminar implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            if (panelElegidos.getComponentCount() == 0) {
+                // Mostrar mensaje de error si el panel está vacío
+                JOptionPane.showMessageDialog(
+                        null,
+                        "No hay Puchamones creados para eliminar.",
+                        "Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+
+            }else{
+                // Mensaje de confirmación
+                int opcion = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Está seguro de eliminar al Puchamon?\n" +
+                                "Si lo elimina, se le cobrarán 2000 monedas al crear otro.",
+                        "Confirmación de Eliminación",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                // Verificar la opción seleccionada por el usuario
+                if (opcion == JOptionPane.YES_OPTION) {
+                    Equipo equipo = new Equipo();
+                    equipo.eliminarPuchamon(nombrePuchamonSeleccionado);
+                    agregarPaneles(jugador);
+                } else {
+                    // Si el usuario selecciona "No", no se hace nada
+                }
+            }
         }
     }
 }

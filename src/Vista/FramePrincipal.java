@@ -1,6 +1,7 @@
 package Vista;
 
 import Controlador.*;
+import Modelo.Combate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,7 +45,7 @@ public class FramePrincipal extends JFrame {
         new ContoladorEstadisticas(estadisticas, menu, usuario);
         new ControladorEquipo(equipo, menu, usuario);
         new ControladorRegistroPuchamon(registroPuchamon, equipo, menu, usuario);
-        new ControladorArena(arena, menu, usuario, apuesta);
+        new Combate(arena, menu, usuario, apuesta);
         ControladorMenuPrincipal con = new ControladorMenuPrincipal(menu);
         con.CargarImagenesBtn();
 

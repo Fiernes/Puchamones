@@ -11,6 +11,7 @@ public class InterfazRegistroPuchamon extends PanelFondo {
 
     private CardLayout cardLayout;
     private JPanel mostrarPaneles;
+    private JPanel panelImagenes;
     private JTextField txtNombreP;
     private JLabel ultimaSeleccionada;
     private JLabel seleccionada;
@@ -82,8 +83,6 @@ public class InterfazRegistroPuchamon extends PanelFondo {
     public void setPanelImagenes(JPanel panelImagenes) {
         this.panelImagenes = panelImagenes;
     }
-
-    private JPanel panelImagenes;
 
     public InterfazRegistroPuchamon(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles){
         super("/imagenes/FondoMprincipal3.jpg");

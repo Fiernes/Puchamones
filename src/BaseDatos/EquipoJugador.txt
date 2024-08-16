@@ -1,3 +1,0 @@
-Usuario: Fiernes, NombreP: Piñasaurio, TipoP: Planta, NivelP: 1, VidaP: 250, AtaqueP: 68, DefensaP: 78, Experiencia: 0, Imagen: src\imagenes\Puchamones\Planta-5.png
-Usuario: Fiernes, NombreP: Dragoncin, TipoP: Agua, NivelP: 1, VidaP: 250, AtaqueP: 69, DefensaP: 66, Experiencia: 0, Imagen: src\imagenes\Puchamones\Agua-3.png
-Usuario: Fiernes, NombreP: s, TipoP: Fuego, NivelP: 1, VidaP: 250, AtaqueP: 63, DefensaP: 89, Experiencia: 0, Imagen: src\imagenes\Puchamones\Fuego-2.png

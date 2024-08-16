@@ -35,8 +35,9 @@ public class Equipo {
     }
 
     public void agregarPuchamon(Puchamon puchamon) {
-        String nombreArchivo = "src/BaseDatos/EquipoJugador.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo, true))) {
+        String currentDir = new File("").getAbsolutePath();
+        String rutaBaseDatos = currentDir + File.separator + "BaseDatos" + File.separator + "EquipoJugador.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(rutaBaseDatos, true))) {
             writer.write("Usuario: " + puchamon.getUsuario() + ", ");
             writer.write("NombreP: " + puchamon.getNombre() + ", ");
             writer.write("TipoP: " + puchamon.getTipo() + ", ");
@@ -53,17 +54,41 @@ public class Equipo {
 
     }
 
-    // Elimina un Modelo.Puchamon del equipo
-    public void eliminarPuchamon(Puchamon puchamon) {
+    public void eliminarPuchamon(String nombrePuchamon) {
+        String currentDir = new File("").getAbsolutePath();
+        String rutaBaseDatos = currentDir + File.separator + "BaseDatos" + File.separator + "EquipoJugador.txt";
+        String rutaTemp = currentDir + File.separator + "BaseDatos" + File.separator + "EquipoJugador_temp.txt";
 
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaBaseDatos));
+             BufferedWriter bw = new BufferedWriter(new FileWriter(rutaTemp))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.contains("NombreP: " + nombrePuchamon + ",")) {
+                    bw.write(line);
+                    bw.newLine();
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al eliminar el Puchamon: " + e.getMessage());
+        }
 
+        // Eliminar el archivo original y renombrar el temporal
+        File originalFile = new File(rutaBaseDatos);
+        File tempFile = new File(rutaTemp);
+
+        if (originalFile.delete()) {
+            tempFile.renameTo(originalFile);
+        } else {
+            System.err.println("No se pudo eliminar el archivo original.");
+        }
     }
+
 
     // Revisa el equipo
     public List<Puchamon> cargarEquipo() {
-
-        String filePath = "src/BaseDatos/EquipoJugador.txt"; // Cambia esto a la ruta de tu archivo
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        String currentDir = new File("").getAbsolutePath();
+        String rutaBaseDatos = currentDir + File.separator + "BaseDatos" + File.separator + "EquipoJugador.txt";
+        try (BufferedReader br = new BufferedReader(new FileReader(rutaBaseDatos))) {
             String line;
             while ((line = br.readLine()) != null) {
                 Puchamon puchamon = parsePuchamon(line);
