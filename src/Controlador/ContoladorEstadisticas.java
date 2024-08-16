@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.EstadisticasJugador;
+import Modelo.Jugador;
 import Modelo.Sistema;
 import Vista.InterfazEstadisticas;
 import Vista.InterfazMPrincipal;
@@ -14,7 +15,7 @@ import java.util.List;
 public class ContoladorEstadisticas {
 
     private List<EstadisticasJugador> listaEsta;
-
+    private List<Jugador> listaJugador;
     private CardLayout card;
     private JPanel paneles;
     private JLabel verNombreJ;
@@ -26,8 +27,9 @@ public class ContoladorEstadisticas {
     private JLabel verDG;
     private JLabel verDP;
     private JLabel verDOMPV;
-    private JButton btnRegresarR;
     private String Usuario;
+    private JLabel verOroD;
+    private JLabel verNivel;
 
     public ContoladorEstadisticas(InterfazEstadisticas vista, InterfazMPrincipal menu, String usuario){
         this.Usuario = usuario;
@@ -42,7 +44,8 @@ public class ContoladorEstadisticas {
         this.verDG = vista.getVerDG();
         this.verDP = vista.getVerDP();
         this.verDOMPV = vista.getVerDOMPV();
-        this.btnRegresarR = vista.getBtnAtras();
+        this.verOroD = vista.getVerOrodisponoble();
+        this.verNivel = vista.getVerNivel();
 
         vista.Oyente(new OyenteAtras());
         menu.OyenteEstadisticas(new OyenteEstadisticas());
@@ -51,7 +54,9 @@ public class ContoladorEstadisticas {
     public void CargarEstadisticasJugador(){
         Sistema s = new Sistema();
         s.cargarEstadisticas();
+        s.cargarJugadores();
         listaEsta = s.getEstadisticas();
+        listaJugador = s.getJugadores();
 
         for (EstadisticasJugador esta : listaEsta){
             if (Usuario.equals(esta.getNombreJugador())){
@@ -64,6 +69,14 @@ public class ContoladorEstadisticas {
                 verDG.setText(String.valueOf(esta.getDineroGanado()));
                 verDP.setText(String.valueOf(esta.getDineroPerdido()));
                 verDOMPV.setText(String.valueOf(esta.getBatallasDosOMasPV()));
+                break;
+            }
+        }
+
+        for (Jugador jugador : listaJugador){
+            if (Usuario.equals(jugador.getNombreUsuario())){
+                verOroD.setText(String.valueOf(jugador.getOro()));
+                verNivel.setText(String.valueOf(jugador.getNivelJu()));
                 break;
             }
         }

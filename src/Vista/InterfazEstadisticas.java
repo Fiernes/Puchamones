@@ -21,14 +21,12 @@ public class InterfazEstadisticas extends PanelFondo {
     private JLabel verDG;
     private JLabel verDP;
     private JLabel verDOMPV;
+    private JLabel verOrodisponoble;
+    private JLabel verNivel;
     private JButton btnAtras;
 
     public JButton getBtnAtras() {
         return btnAtras;
-    }
-
-    public void setBtnAtras(JButton btnAtras) {
-        this.btnAtras = btnAtras;
     }
 
     public CardLayout getCardLayout() {
@@ -43,76 +41,44 @@ public class InterfazEstadisticas extends PanelFondo {
         return verNombreJ;
     }
 
-    public void setVerNombreJ(JLabel verNombreJ) {
-        this.verNombreJ = verNombreJ;
-    }
-
     public JLabel getVerPC() {
         return verPC;
-    }
-
-    public void setVerPC(JLabel verPC) {
-        this.verPC = verPC;
     }
 
     public JLabel getVerPE() {
         return verPE;
     }
 
-    public void setVerPE(JLabel verPE) {
-        this.verPE = verPE;
-    }
-
     public JLabel getVerBA() {
         return verBA;
-    }
-
-    public void setVerBA(JLabel verBA) {
-        this.verBA = verBA;
     }
 
     public JLabel getVerBG() {
         return verBG;
     }
 
-    public void setVerBG(JLabel verBG) {
-        this.verBG = verBG;
-    }
-
     public JLabel getVerBP() {
         return verBP;
-    }
-
-    public void setVerBP(JLabel verBP) {
-        this.verBP = verBP;
     }
 
     public JLabel getVerDG() {
         return verDG;
     }
 
-    public void setVerDG(JLabel verDG) {
-        this.verDG = verDG;
-    }
-
     public JLabel getVerDP() {
         return verDP;
-    }
-
-    public void setVerDP(JLabel verDP) {
-        this.verDP = verDP;
     }
 
     public JLabel getVerDOMPV() {
         return verDOMPV;
     }
 
-    public void setVerDOMPV(JLabel verDOMPV) {
-        this.verDOMPV = verDOMPV;
-    }
+    public JLabel getVerOrodisponoble() { return verOrodisponoble; }
+
+    public JLabel getVerNivel() { return verNivel; }
 
     public InterfazEstadisticas(Map<String, String> config, CardLayout cardLayout, JPanel mostrarPaneles) {
-        super("/imagenes/Estadisticas.jpg");
+        super("/imagenes/Arena2.jpg");
 
         this.cardLayout = cardLayout;
         this.mostrarPaneles = mostrarPaneles;
@@ -120,145 +86,183 @@ public class InterfazEstadisticas extends PanelFondo {
         Color colorLetras = new Color(253, 157, 43, 255);
         Font fuenteInicio = new Font("Georgia", Font.BOLD, 20);
         Color color = new Color(191, 37, 23);
+        setLayout(new BorderLayout());
         setBorder(new MatteBorder(2, 3, 2, 3, color));
-        setLayout(new GridBagLayout());
+
+        JPanel panelLabel = new JPanel();
+        panelLabel.setOpaque(false);
+        panelLabel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Crear y agregar etiquetas y campos de texto a la interfaz
-        JLabel labelNombreJ = new JLabel(config.getOrDefault("nombreJ", "Jugador"));
+        JLabel labelNombreJ = new JLabel(config.getOrDefault("labelNombreJ", "Jugador"));
         labelNombreJ.setForeground(colorLetras);
         labelNombreJ.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        add(labelNombreJ, gbc);
+        panelLabel.add(labelNombreJ, gbc);
 
         verNombreJ = new JLabel();
         verNombreJ.setForeground(colorLetras);
         verNombreJ.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 0;
-        add(verNombreJ, gbc);
+        panelLabel.add(verNombreJ, gbc);
 
-        JLabel labelPC = new JLabel(config.getOrDefault("puchamonesCreados", "Puchamones Creados"));
+        JLabel labelPC = new JLabel(config.getOrDefault("labelPC", "Puchamones Creados"));
         labelPC.setForeground(colorLetras);
         labelPC.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 1;
-        add(labelPC, gbc);
+        panelLabel.add(labelPC, gbc);
 
         verPC = new JLabel();
         verPC.setForeground(colorLetras);
         verPC.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 1;
-        add(verPC, gbc);
+        panelLabel.add(verPC, gbc);
 
-        JLabel labelPE = new JLabel(config.getOrDefault("puchamonesEliminados", "Puchamones Eliminados"));
+        JLabel labelPE = new JLabel(config.getOrDefault("labelPE", "Puchamones Eliminados"));
         labelPE.setForeground(colorLetras);
         labelPE.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 2;
-        add(labelPE, gbc);
+        panelLabel.add(labelPE, gbc);
 
         verPE = new JLabel();
         verPE.setForeground(colorLetras);
         verPE.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 2;
-        add(verPE, gbc);
+        panelLabel.add(verPE, gbc);
 
-        JLabel labelBA = new JLabel(config.getOrDefault("batallasArena", "Batallas en arena"));
+        JLabel labelBA = new JLabel(config.getOrDefault("labelBA", "Batallas en arena"));
         labelBA.setForeground(colorLetras);
         labelBA.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 3;
-        add(labelBA, gbc);
+        panelLabel.add(labelBA, gbc);
 
         verBA = new JLabel();
         verBA.setForeground(colorLetras);
         verBA.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 3;
-        add(verBA, gbc);
+        panelLabel.add(verBA, gbc);
 
-        JLabel labelBG = new JLabel(config.getOrDefault("batallasGanadas", "Batallas ganadas"));
+        JLabel labelBG = new JLabel(config.getOrDefault("labelBG", "Batallas ganadas"));
         labelBG.setForeground(colorLetras);
         labelBG.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 4;
-        add(labelBG, gbc);
+        panelLabel.add(labelBG, gbc);
 
         verBG = new JLabel();
         verBG.setForeground(colorLetras);
         verBG.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        add(verBG, gbc);
+        panelLabel.add(verBG, gbc);
 
-        JLabel labelBP = new JLabel(config.getOrDefault("batallasPerdidas", "Batallas perdidas"));
+        JLabel labelBP = new JLabel(config.getOrDefault("labelBP", "Batallas perdidas"));
         labelBP.setForeground(colorLetras);
         labelBP.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 5;
-        add(labelBP, gbc);
+        panelLabel.add(labelBP, gbc);
 
         verBP = new JLabel();
         verBP.setForeground(colorLetras);
         verBP.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 5;
-        add(verBP, gbc);
+        panelLabel.add(verBP, gbc);
 
-        JLabel labelDG = new JLabel(config.getOrDefault("dineroGanado", "Dinero Ganado"));
+        JLabel labelDG = new JLabel(config.getOrDefault("labelDG", "Dinero Ganado"));
         labelDG.setForeground(colorLetras);
         labelDG.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 6;
-        add(labelDG, gbc);
+        panelLabel.add(labelDG, gbc);
 
         verDG = new JLabel();
         verDG.setForeground(colorLetras);
         verDG.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 6;
-        add(verDG, gbc);
+        panelLabel.add(verDG, gbc);
 
-        JLabel labelDP = new JLabel(config.getOrDefault("dineroPerdido", "Dinero perdido"));
+        JLabel labelDP = new JLabel(config.getOrDefault("labelDP", "Dinero perdido"));
         labelDP.setForeground(colorLetras);
         labelDP.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 7;
-        add(labelDP, gbc);
+        panelLabel.add(labelDP, gbc);
 
         verDP = new JLabel();
         verDP.setForeground(colorLetras);
         verDP.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 7;
-        add(verDP, gbc);
+        panelLabel.add(verDP, gbc);
 
-        JLabel labelDOMPV = new JLabel(config.getOrDefault("batallasGanadasCon2OMasVivos", "Batallas ganadas con 2 o mas puchamones vivos"));
+        JLabel labelDOMPV = new JLabel(config.getOrDefault("labelDOMPV", "Batallas ganadas con 2 o mas puchamones vivos"));
         labelDOMPV.setForeground(colorLetras);
         labelDOMPV.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 8;
-        add(labelDOMPV, gbc);
+        panelLabel.add(labelDOMPV, gbc);
 
         verDOMPV = new JLabel();
         verDOMPV.setForeground(colorLetras);
         verDOMPV.setFont(fuenteInicio);
         gbc.gridx = 1;
         gbc.gridy = 8;
-        add(verDOMPV, gbc);
+        panelLabel.add(verDOMPV, gbc);
 
-        btnAtras = new JButton(config.getOrDefault("btnRegresarR", "Volver atras"));
-        btnAtras.setSize(50, 50);
+        JLabel labelOroDiponible = new JLabel(config.getOrDefault("labelOroDiponible","Oro disponible"));
+        labelOroDiponible.setForeground(colorLetras);
+        labelOroDiponible.setFont(fuenteInicio);
         gbc.gridx = 0;
         gbc.gridy = 9;
-        add(btnAtras, gbc);
+        panelLabel.add(labelOroDiponible, gbc);
+
+        verOrodisponoble = new JLabel();
+        verOrodisponoble.setForeground(colorLetras);
+        verOrodisponoble.setFont(fuenteInicio);
+        gbc.gridx = 1;
+        gbc.gridy = 9;
+        panelLabel.add(verOrodisponoble, gbc);
+
+        JLabel labelNivel = new JLabel(config.getOrDefault("labelNivel","Nivel Jugador"));
+        labelNivel.setForeground(colorLetras);
+        labelNivel.setFont(fuenteInicio);
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        panelLabel.add(labelNivel, gbc);
+
+        verNivel = new JLabel();
+        verNivel.setForeground(colorLetras);
+        verNivel.setFont(fuenteInicio);
+        gbc.gridx = 1;
+        gbc.gridy = 10;
+        panelLabel.add(verNivel, gbc);
+
+        add(panelLabel, BorderLayout.CENTER);
+
+        JPanel panelBtn = new JPanel();
+        panelBtn.setOpaque(false);
+        panelBtn.setLayout(new FlowLayout());
+
+        btnAtras = new JButton(config.getOrDefault("btnRegresarR", "Volver atras"));
+        btnAtras.setPreferredSize(new Dimension(150,50));
+        panelBtn.add(btnAtras);
+
+        add(panelBtn, BorderLayout.SOUTH);
     }
     public void Oyente(ActionListener po){
         btnAtras.addActionListener(po);

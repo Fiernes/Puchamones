@@ -1,7 +1,9 @@
 package Controlador;
 
 import Modelo.Equipo;
+import Modelo.EstadisticasJugador;
 import Modelo.Puchamon;
+import Modelo.Sistema;
 import Vista.InterfazEquipo;
 import Vista.InterfazRegistroPuchamon;
 import Vista.InterfazMPrincipal;
@@ -29,7 +31,6 @@ public class ControladorRegistroPuchamon {
     private String usuario;
     private String rutaImagen;
     private JComboBox<String> tipo;
-    private int maxPuchamones = 1;
     private InterfazEquipo interfazEquipo;
     private InterfazMPrincipal menu;
 
@@ -102,6 +103,7 @@ public class ControladorRegistroPuchamon {
     }
 
     private void CrearPuchamon(){
+        int maxPuchamones = 1;
         Equipo equi = new Equipo();
         List<Puchamon> listaDatos =  equi.cargarEquipo();
 
@@ -111,7 +113,7 @@ public class ControladorRegistroPuchamon {
             }
         }
 
-        if (maxPuchamones > 4){
+        if (maxPuchamones > 3){
             JOptionPane.showMessageDialog(null, "A alcanzado el maximo de puchamones");
         }else {
             Puchamon pu = new Puchamon();
@@ -135,7 +137,31 @@ public class ControladorRegistroPuchamon {
             pu.setExperiencia(0);
             pu.setRutaImagen(rutaImagen);
             e.agregarPuchamon(pu);
+            txtNombreP.setText("");
             JOptionPane.showMessageDialog(null, "Puchamon creado con exito");
+        }
+    }
+
+    private void actualizarEstadisticas() {
+        EstadisticasJugador estadisticas = new EstadisticasJugador();
+        Sistema sistema = new Sistema();
+        sistema.cargarEstadisticas();
+        List<EstadisticasJugador> estadisticasTemp = sistema.getEstadisticas();
+
+        for (EstadisticasJugador estasTemp : estadisticasTemp) {
+            if (usuario.equals(estasTemp.getNombreJugador())) {
+                estadisticas.setNombreJugador(estasTemp.getNombreJugador());
+                estadisticas.setPuchamonesCreados(estasTemp.getPuchamonesCreados() + 1);
+                estadisticas.setPuchamonesEliminados(estasTemp.getPuchamonesEliminados());
+                estadisticas.setBatallasEnArena(estasTemp.getBatallasEnArena());
+                estadisticas.setBatallasGanadas(estasTemp.getBatallasGanadas());
+                estadisticas.setBatallasPerdidas(estasTemp.getBatallasPerdidas());
+                estadisticas.setDineroGanado(estasTemp.getDineroGanado());
+                estadisticas.setDineroPerdido(estasTemp.getDineroPerdido());
+                estadisticas.setBatallasDosOMasPV(estasTemp.getBatallasDosOMasPV());
+                estadisticas.ModificarEstadisticas();
+                break;
+            }
         }
     }
 
@@ -143,7 +169,9 @@ public class ControladorRegistroPuchamon {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+
             CrearPuchamon();
+            actualizarEstadisticas();
         }
     }
 

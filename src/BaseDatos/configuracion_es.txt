@@ -16,4 +16,16 @@ labelGeneroR=Ingrese su género
 labelEdadR=Ingrese su edad
 JOptionPane=Se ha ingresado con éxito al nuevo usuario y se le han acreditado 2000 de oro
 JOptionPaneCabezera=Registro exitoso
+labelNombreJ=Jugador
+labelPC=Puchamones Creados
+labelPE=Puchamones Eliminados
+labelBA=Batallas en arena
+labelBG=Batallas ganadas
+labelBP=Batallas perdidas
+labelDG=Dinero Ganado
+labelDP=Dinero perdido
+labelDOMPV=Batallas ganadas con 2 o mas puchamones vivos
+labelOroDiponible=Oro disponible
+labelNivel=Nivel Jugador
+
 
