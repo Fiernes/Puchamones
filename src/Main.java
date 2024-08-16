@@ -1,9 +1,5 @@
 import Modelo.Configuracion;
 import Vista.FrameInicio;
-import javafx.application.Application;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.File;
@@ -46,7 +42,8 @@ public class Main {
         String rutaArchivo = (seleccion == 1) ? "/BaseDatos/configuracion_en.txt" : "/BaseDatos/configuracion_es.txt";
 
         Map<String, String> config = Configuracion.cargarConfiguracion(rutaArchivo);
-        new FrameInicio(config);
+        FrameInicio frame = new FrameInicio(config);
+        frame.setVisible(true);
     }
 
     // Método para crear un archivo en una ruta específica
